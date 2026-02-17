@@ -1,0 +1,15 @@
+# Byggfiler
+bin/
+obj/
+
+# Publiceringsmapp
+publish/
+
+# Loggfiler
+*.log
+
+# Windows-systemfiler
+Thumbs.db
+
+# Utvecklingsinställningar
+appsettings.Development.json
