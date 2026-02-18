@@ -23,10 +23,14 @@ namespace DiveLogg.Models
         [Required]
         public int NitrogenLoad { get; set; }
 
+        //sätter restriktioner för Latitude
         [Required]
+        [Range(-90, 90)]
         public double Latitude { get; set; }
 
+        //sätter restriktioner för Longitude
         [Required]
+        [Range(-180, 180)]
         public double Longitude { get; set; }
 
         [MaxLength(200)]
@@ -36,10 +40,11 @@ namespace DiveLogg.Models
 
         //Relationer
         //FK till person
-        public int? DiveLeaderId { get; set; }
+        [Required]
+        public int DiveLeaderId { get; set; }
         //Navigations property till den person som leder dyket
         //Används för att visa ledare i vyer och för filtrering
-        public Person? DiveLeader { get; set; }
+        public Person DiveLeader { get; set; } = null!;
 
         //Lista över deltagare
         //Används för att visa deltagare i vyer och för filtrering
