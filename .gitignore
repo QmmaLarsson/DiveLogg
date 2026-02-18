@@ -5,6 +5,9 @@ obj/
 # Publiceringsmapp
 publish/
 
+# SQLite databaser
+*.db
+
 # Loggfiler
 *.log
 
