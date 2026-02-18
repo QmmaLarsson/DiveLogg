@@ -1,6 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using DiveLogg.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+//Koppla till databas
+builder.Services.AddDbContext<DiveLoggContext>(options =>
+options.UseSqlite(builder.Configuration.GetConnectionString("DefaultDbString")));
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
