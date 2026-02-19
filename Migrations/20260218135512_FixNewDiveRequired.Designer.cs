@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiveLogg.Migrations
 {
     [DbContext(typeof(DiveLoggContext))]
-    [Migration("20260218110430_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260218135512_FixNewDiveRequired")]
+    partial class FixNewDiveRequired
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace DiveLogg.Migrations
                     b.Property<int>("Depth")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DiveLeaderId")
+                    b.Property<int>("DiveLeaderId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("DiveTime")
@@ -51,8 +51,10 @@ namespace DiveLogg.Migrations
                     b.Property<double>("Longitude")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("NitrogenLoad")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("NitrogenLoad")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Notes")
                         .HasColumnType("TEXT");
@@ -165,9 +167,10 @@ namespace DiveLogg.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
-
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("PersonId", "RoleId")
+                        .IsUnique();
 
                     b.ToTable("PersonRole");
                 });
@@ -209,7 +212,9 @@ namespace DiveLogg.Migrations
                 {
                     b.HasOne("DiveLogg.Models.Person", "DiveLeader")
                         .WithMany("LedDives")
-                        .HasForeignKey("DiveLeaderId");
+                        .HasForeignKey("DiveLeaderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("DiveLeader");
                 });

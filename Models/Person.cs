@@ -13,7 +13,8 @@ public class Person
     //Personens grupptillhörighet
     [Required]
     public int GroupId { get; set; }
-    public Group Group { get; set; } = null!;
+
+    public Group? Group { get; set; }
 
     //Roller personen har (dykare, dykledare, dykskötare)
     public ICollection<PersonRole> PersonRoles { get; set; } = new List<PersonRole>();

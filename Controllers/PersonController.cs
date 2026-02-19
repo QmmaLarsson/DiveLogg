@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DiveLogg.Data;
 using DiveLogg.Models;
+using DiveLogg.ViewModels;
 
 namespace DiveLogg.Controllers
 {
+    //Controlleer för hantering av Person objekt
     public class PersonController : Controller
     {
+        //DbContext kommunicerar med databasen
         private readonly DiveLoggContext _context;
 
         public PersonController(DiveLoggContext context)
@@ -20,119 +23,219 @@ namespace DiveLogg.Controllers
         }
 
         // GET: Person
+        //Hämtar alla personer fån databasen och visar på skärmen
         public async Task<IActionResult> Index()
         {
-            var diveLoggContext = _context.Person.Include(p => p.Group);
-            return View(await diveLoggContext.ToListAsync());
+            //Include hämtar relaterad gruppdata
+            var persons = _context.Person.Include(p => p.Group);
+
+            //Konverterar till lista och visar på skärm
+            return View(await persons.ToListAsync());
         }
 
         // GET: Person/Details/5
+        //Visar detaljer för en specifik person
         public async Task<IActionResult> Details(int? id)
         {
+
+            //Kontroll om id finns
             if (id == null)
             {
                 return NotFound();
             }
 
+            //Hämtar person + grupp + roller
             var person = await _context.Person
                 .Include(p => p.Group)
+                .Include(p => p.PersonRoles)
+                .ThenInclude(pr => pr.Role)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            //Om person inte finns
             if (person == null)
             {
                 return NotFound();
             }
 
+            //Om allt går bra, returnera person
             return View(person);
         }
 
         // GET: Person/Create
+        //Visar formulär för att skapa ny person
         public IActionResult Create()
         {
+
+            //Skapar viewModel och fyller med alla roller
+            var vm = new PersonCreateViewModel
+            {
+                AvailableRoles = _context.Role.ToList()
+            };
+
+            //Skapar dropdown för groups
             ViewData["GroupId"] = new SelectList(_context.Group, "Id", "Name");
-            return View();
+            return View(vm);
         }
 
         // POST: Person/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Tar emot formulärdata och sparar som ny person i databasen
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,GroupId,CreatedAt")] Person person)
+        public async Task<IActionResult> Create(PersonCreateViewModel vm)
         {
-            if (ModelState.IsValid)
+            //Om formulärdata är felaktig
+            if (!ModelState.IsValid)
             {
-                _context.Add(person);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // fyller på rollerna igen om något gick fel
+                vm.AvailableRoles = _context.Role.ToList();
+
+                //Skapar ny dropdown för views
+                ViewData["GroupId"] = new SelectList(_context.Group, "Id", "Name", vm.GroupId);
+                return View(vm);
             }
-            ViewData["GroupId"] = new SelectList(_context.Group, "Id", "Name", person.GroupId);
-            return View(person);
+
+            // Skapa ny person
+            var person = new Person
+            {
+                Name = vm.Name,
+                GroupId = vm.GroupId,
+
+                //timestamp för datum sätts automatiskt
+                CreatedAt = DateTime.UtcNow
+            };
+
+            //Lägger till i databas
+            _context.Person.Add(person);
+
+            //Sparar
+            await _context.SaveChangesAsync();
+
+            // Lägg till valda roller
+            if (vm.SelectedRoleIds != null && vm.SelectedRoleIds.Any())
+            {
+                foreach (var roleId in vm.SelectedRoleIds)
+                {
+                    _context.PersonRole.Add(new PersonRole
+                    {
+                        PersonId = person.Id,
+                        RoleId = roleId
+                    });
+                }
+                await _context.SaveChangesAsync();
+            }
+
+            //Går tillbaka till listan
+            return RedirectToAction(nameof(Index));
         }
 
+
         // GET: Person/Edit/5
+        //Formulär för att redigera person
         public async Task<IActionResult> Edit(int? id)
         {
+            //Kontroll om person existerar
             if (id == null)
             {
                 return NotFound();
             }
 
-            var person = await _context.Person.FindAsync(id);
+            //Hämtar person med roller
+            var person = await _context.Person
+            .Include(p => p.PersonRoles)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
             if (person == null)
             {
                 return NotFound();
             }
+
+            //Skapar viewModel och fyller med data från person
+            var vm = new PersonEditViewModel
+            {
+                Id = person.Id,
+                Name = person.Name,
+                GroupId = person.GroupId,
+                CreatedAt = person.CreatedAt,
+                AvailableRoles = _context.Role.ToList(),
+                SelectedRoleIds = person.PersonRoles.Select(pr => pr.RoleId).ToList()
+            };
+
+            //dropdown för grupper
             ViewData["GroupId"] = new SelectList(_context.Group, "Id", "Name", person.GroupId);
-            return View(person);
+
+            return View(vm);
         }
 
         // POST: Person/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // ppdatera person i databasen      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,GroupId,CreatedAt")] Person person)
+        public async Task<IActionResult> Edit(PersonEditViewModel vm)
         {
-            if (id != person.Id)
+            
+            if (!ModelState.IsValid)
+            {
+                vm.AvailableRoles = _context.Role.ToList();
+                ViewData["GroupId"] = new SelectList(_context.Group, "Id", "Name", vm.GroupId);
+
+                return View(vm);
+            }
+
+            //Hämtar person från databasen
+            var person = await _context.Person
+                .Include(p => p.PersonRoles)
+                .FirstOrDefaultAsync(p => p.Id == vm.Id);
+
+            if (person == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //Uppdaterar data för namn/ grupp
+            person.Name = vm.Name;
+            person.GroupId = vm.GroupId;
+
+            //Uppdaterar roller
+            var existingRoleIds = person.PersonRoles.Select(pr => pr.RoleId).ToList();
+
+            //Tar bort roller som inte längre är valda
+            var rolesToRemove = person.PersonRoles.Where(pr => !vm.SelectedRoleIds.Contains(pr.RoleId)).ToList();
+            _context.PersonRole.RemoveRange(rolesToRemove);
+
+            //Lägger till nya roller
+            var rolesToAdd = vm.SelectedRoleIds.Where(rid => !existingRoleIds.Contains(rid)).ToList();
+
+            //Uppdaterar och registrerar valda roller till person
+            foreach (var roleId in rolesToAdd)
             {
-                try
+                _context.PersonRole.Add(new PersonRole
                 {
-                    _context.Update(person);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PersonExists(person.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                    PersonId = person.Id,
+                    RoleId = roleId
+                });
             }
-            ViewData["GroupId"] = new SelectList(_context.Group, "Id", "Name", person.GroupId);
-            return View(person);
+
+            //Sparar ändringar
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Person/Delete/5
+        //Sida för att bekräfta en delete
         public async Task<IActionResult> Delete(int? id)
         {
+
+            //Om id inte hittas
             if (id == null)
             {
                 return NotFound();
             }
 
+            
             var person = await _context.Person
                 .Include(p => p.Group)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (person == null)
             {
                 return NotFound();
@@ -142,17 +245,22 @@ namespace DiveLogg.Controllers
         }
 
         // POST: Person/Delete/5
+        //Ta bort person från databasen
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            //person får värdet av den valda personen utifrån Id
             var person = await _context.Person.FindAsync(id);
+
+            //Om person hittas, radera person
             if (person != null)
             {
                 _context.Person.Remove(person);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
