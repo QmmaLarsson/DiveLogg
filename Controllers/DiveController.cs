@@ -59,6 +59,7 @@ namespace DiveLogg.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Date,Depth,DiveTime,ExposureTime,NitrogenLoad,Latitude,Longitude,LocationName,Notes,DiveLeaderId")] Dive dive)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(dive);

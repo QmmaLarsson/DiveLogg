@@ -21,7 +21,9 @@ namespace DiveLogg.Models
         public int ExposureTime { get; set; }
 
         [Required]
-        public int NitrogenLoad { get; set; }
+        [RegularExpression("^[A-Z]$", ErrorMessage = "NitrogenLoad måste vara en bokstav A-Z")]
+        [MaxLength(1)]
+        public string NitrogenLoad { get; set; } = string.Empty;
 
         //sätter restriktioner för Latitude
         [Required]
@@ -44,7 +46,7 @@ namespace DiveLogg.Models
         public int DiveLeaderId { get; set; }
         //Navigations property till den person som leder dyket
         //Används för att visa ledare i vyer och för filtrering
-        public Person DiveLeader { get; set; } = null!;
+        public Person? DiveLeader { get; set; }
 
         //Lista över deltagare
         //Används för att visa deltagare i vyer och för filtrering

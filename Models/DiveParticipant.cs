@@ -13,20 +13,20 @@ namespace DiveLogg.Models
         public int DiveId { get; set; }
         //Navigations property till dyket
         //Används för att få information om dyket
-        public Dive Dive { get; set; } = null!;
+        public Dive? Dive { get; set; }
 
         //FK till Person
         [Required]
         public int PersonId { get; set; }
         //Navigations property till person
         //Används för att få information om person
-        public Person Person { get; set; } = null!;
+        public Person? Person { get; set; }
 
         //FK till Role
         [Required]
         public int RoleId { get; set; }
         //Navigations property till roll
         //Används för att visa roll i vyer och för filtrering
-        public Role Role { get; set; } = null!;
+        public Role? Role { get; set; }
     }
 }

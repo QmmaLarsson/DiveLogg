@@ -12,7 +12,7 @@ public class PersonRole
 
     //Kopplar till person i class Person
     [ForeignKey(nameof(PersonId))]
-    public Person Person { get; set; } = null!;
+    public Person? Person { get; set; }
 
     [Required]
     public int RoleId { get; set; }

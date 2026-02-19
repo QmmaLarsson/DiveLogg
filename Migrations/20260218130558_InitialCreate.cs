@@ -70,12 +70,12 @@ namespace DiveLogg.Migrations
                     Depth = table.Column<int>(type: "INTEGER", nullable: false),
                     DiveTime = table.Column<int>(type: "INTEGER", nullable: false),
                     ExposureTime = table.Column<int>(type: "INTEGER", nullable: false),
-                    NitrogenLoad = table.Column<int>(type: "INTEGER", nullable: false),
+                    NitrogenLoad = table.Column<string>(type: "TEXT", maxLength: 1, nullable: false),
                     Latitude = table.Column<double>(type: "REAL", nullable: false),
                     Longitude = table.Column<double>(type: "REAL", nullable: false),
                     LocationName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
                     Notes = table.Column<string>(type: "TEXT", nullable: true),
-                    DiveLeaderId = table.Column<int>(type: "INTEGER", nullable: true)
+                    DiveLeaderId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,7 +84,8 @@ namespace DiveLogg.Migrations
                         name: "FK_Dive_Person_DiveLeaderId",
                         column: x => x.DiveLeaderId,
                         principalTable: "Person",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -193,9 +194,10 @@ namespace DiveLogg.Migrations
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PersonRole_PersonId",
+                name: "IX_PersonRole_PersonId_RoleId",
                 table: "PersonRole",
-                column: "PersonId");
+                columns: new[] { "PersonId", "RoleId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersonRole_RoleId",
