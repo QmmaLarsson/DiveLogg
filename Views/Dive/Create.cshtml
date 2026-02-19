@@ -1,4 +1,4 @@
-@model DiveLogg.Models.Dive
+@model DiveLogg.ViewModels.DiveCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -11,67 +11,80 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+                <label asp-for="Dive.Date" class="control-label">Datum: </label>
+                <input asp-for="Dive.Date" class="form-control" />
+            </div>
+            <!-- Dykledare -->
+            <div class="form-group">
+                <label asp-for="Dive.DiveLeaderId" class="control-label">Dykledare: </label>
+                <select asp-for="Dive.DiveLeaderId" asp-items="Model.DiveLeaders" class="form-control">
+                    <option value=""></option>
+                </select>
+            </div>
+            <!-- Dykare -->
+            <div class="form-group">
+                <label>Dykare: </label>
+                <select asp-for="Participants[0].PersonId" asp-items="Model.Divers" class="form-control">
+                    <option value=""></option>
+                </select>
+                <input type="hidden" asp-for="Participants[0].RoleId" />
+            </div>
+            <!-- Dykskötare -->
+            <div class="form-group">
+                <label>Dykskötare: </label>
+                <select asp-for="Participants[1].PersonId" asp-items="Model.DiveSupports" class="form-control">
+                    <option value=""></option>
+                </select>
+                <input type="hidden" asp-for="Participants[1].RoleId" />
             </div>
             <div class="form-group">
-                <label asp-for="Depth" class="control-label"></label>
-                <input asp-for="Depth" class="form-control" />
-                <span asp-validation-for="Depth" class="text-danger"></span>
+                <label asp-for="Dive.Depth" class="control-label">Djup: </label>
+                <input asp-for="Dive.Depth" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="DiveTime" class="control-label"></label>
-                <input asp-for="DiveTime" class="form-control" />
-                <span asp-validation-for="DiveTime" class="text-danger"></span>
+                <label asp-for="Dive.DiveTime" class="control-label">Dyktid: </label>
+                <input asp-for="Dive.DiveTime" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="ExposureTime" class="control-label"></label>
-                <input asp-for="ExposureTime" class="form-control" />
-                <span asp-validation-for="ExposureTime" class="text-danger"></span>
+                <label asp-for="Dive.ExposureTime" class="control-label">Expositionstid: </label>
+                <input asp-for="Dive.ExposureTime" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="NitrogenLoad" class="control-label"></label>
-                <input asp-for="NitrogenLoad" class="form-control" />
-                <span asp-validation-for="NitrogenLoad" class="text-danger"></span>
+                <label asp-for="Dive.NitrogenLoad" class="control-label">Kvävebelastning: </label>
+                <input asp-for="Dive.NitrogenLoad" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Latitude" class="control-label"></label>
-                <input asp-for="Latitude" class="form-control" />
-                <span asp-validation-for="Latitude" class="text-danger"></span>
+                <label asp-for="Dive.Latitude" class="control-label"></label>
+                <input asp-for="Dive.Latitude" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Longitude" class="control-label"></label>
-                <input asp-for="Longitude" class="form-control" />
-                <span asp-validation-for="Longitude" class="text-danger"></span>
+                <label asp-for="Dive.Longitude" class="control-label"></label>
+                <input asp-for="Dive.Longitude" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="LocationName" class="control-label"></label>
-                <input asp-for="LocationName" class="form-control" />
-                <span asp-validation-for="LocationName" class="text-danger"></span>
+                <label asp-for="Dive.LocationName" class="control-label">Dykplats: </label>
+                <input asp-for="Dive.LocationName" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
+                <label asp-for="Dive.Notes" class="control-label">Anteckningar: </label>
+                <input asp-for="Dive.Notes" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="DiveLeaderId" class="control-label"></label>
-                <select asp-for="DiveLeaderId" class ="form-control" asp-items="ViewBag.DiveLeaderId"></select>
+            <div class="form-group mt-3">
+                <input type="submit" value="Spara" class="btn btn-primary" />
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            <!-- Felmeddelanden -->
+            <div asp-validation-summary="All" class="text-danger mb-2"></div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Tillbaka</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -7,83 +7,90 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Lägg till dyk</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                Datum
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Depth)
+                Dykledare
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DiveTime)
+                Dykare
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExposureTime)
+                Dykskötare
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NitrogenLoad)
+                Djup
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Latitude)
+                Dyktid
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Longitude)
+                Expositionstid
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LocationName)
+                Kvävebelastning
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Notes)
+                Dykplats
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DiveLeader)
+                Anteckningar
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Depth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiveTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExposureTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NitrogenLoad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Latitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Longitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocationName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiveLeader.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiveLeader.Name)
+                </td>
+                <td>
+                    @{
+                        var divers = item.DiveParticipants.Where(p => p.RoleId == 1).Select(p => p.Person.Name);
+                        @string.Join(", ", divers)
+                    }
+                </td>
+                <td>
+                    @{
+                        var supports = item.DiveParticipants.Where(p => p.RoleId == 3).Select(p => p.Person.Name);
+                        @string.Join(", ", supports)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Depth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiveTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExposureTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NitrogenLoad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Redigera</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detaljer</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
