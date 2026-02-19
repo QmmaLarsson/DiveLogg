@@ -21,21 +21,21 @@ namespace DiveLogg.Models
         public int ExposureTime { get; set; }
 
         [Required]
-        [RegularExpression("^[A-Z]$", ErrorMessage = "NitrogenLoad måste vara en bokstav A-Z")]
+        [RegularExpression("^[A-Z]$")]
         [MaxLength(1)]
         public string NitrogenLoad { get; set; } = string.Empty;
 
-        //sätter restriktioner för Latitude
+        //Sätter restriktioner för Latitude
         [Required]
         [Range(-90, 90)]
         public double Latitude { get; set; }
 
-        //sätter restriktioner för Longitude
+        //Sätter restriktioner för Longitude
         [Required]
         [Range(-180, 180)]
         public double Longitude { get; set; }
 
-        [MaxLength(200)]
+        [MaxLength(100)]
         public string? LocationName { get; set; }
 
         public string? Notes { get; set; }
