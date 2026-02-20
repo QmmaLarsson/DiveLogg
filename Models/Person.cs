@@ -6,15 +6,14 @@ public class Person
 {
     public int Id { get; set; }
 
-    [Required]
     [MaxLength(100)]
-    public string Name { get; set; } = string.Empty;
+    public string? Name { get; set; }
 
     //Personens grupptillhörighet
     [Required]
     public int GroupId { get; set; }
 
-    public Group? Group { get; set; }
+    public Group Group { get; set; } = null!;
 
     //Roller personen har (dykare, dykledare, dykskötare)
     public ICollection<PersonRole> PersonRoles { get; set; } = new List<PersonRole>();

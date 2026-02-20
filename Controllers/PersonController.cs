@@ -83,6 +83,14 @@ namespace DiveLogg.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PersonCreateViewModel vm)
         {
+
+            //Kontrollera korrekt ifyllt fält för namn, felmeddelande om fel
+            if (string.IsNullOrWhiteSpace(vm.Name))
+            {
+                ModelState.AddModelError("Name", "Du måste fylla i ett namn");
+            }
+        
+
             //Om formulärdata är felaktig
             if (!ModelState.IsValid)
             {
@@ -172,6 +180,12 @@ namespace DiveLogg.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PersonEditViewModel vm)
         {
+
+            //Kontrollera korrekt ifyllt fält för namn, felmeddelande om fel
+            if (string.IsNullOrWhiteSpace(vm.Name))
+            {
+                ModelState.AddModelError("Name", "Du måste fylla i ett namn");
+            }
             
             if (!ModelState.IsValid)
             {
@@ -231,9 +245,11 @@ namespace DiveLogg.Controllers
                 return NotFound();
             }
 
-            
+            //Hämtar information om person
             var person = await _context.Person
                 .Include(p => p.Group)
+                .Include(p => p.PersonRoles)
+                .ThenInclude(pr => pr.Role)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (person == null)

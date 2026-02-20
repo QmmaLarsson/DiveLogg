@@ -6,9 +6,8 @@ namespace DiveLogg.ViewModels
     public class PersonCreateViewModel
     {
 
-        [Required]
         [MaxLength(100)]
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; }
 
         [Required]
         public int GroupId { get; set; }

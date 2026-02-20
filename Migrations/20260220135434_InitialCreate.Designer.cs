@@ -3,6 +3,7 @@ using System;
 using DiveLogg.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiveLogg.Migrations
 {
     [DbContext(typeof(DiveLoggContext))]
-    partial class DiveLoggContextModelSnapshot : ModelSnapshot
+    [Migration("20260220135434_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.3");
@@ -26,7 +29,7 @@ namespace DiveLogg.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("Depth")
+                    b.Property<int>("Depth")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("DiveLeaderId")
@@ -35,22 +38,23 @@ namespace DiveLogg.Migrations
                     b.Property<int?>("DiveSupportId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DiveTime")
+                    b.Property<int>("DiveTime")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("DiverId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ExposureTime")
+                    b.Property<int>("ExposureTime")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double?>("Latitude")
+                    b.Property<double>("Latitude")
                         .HasColumnType("REAL");
 
                     b.Property<string>("LocationName")
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("Longitude")
+                    b.Property<double>("Longitude")
                         .HasColumnType("REAL");
 
                     b.Property<string>("NitrogenLoad")
