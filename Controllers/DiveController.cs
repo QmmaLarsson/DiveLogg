@@ -25,11 +25,12 @@ namespace DiveLogg.Controllers
         {
             var diveLoggContext = _context.Dive
                 .Include(d => d.DiveLeader)
-                .Include(d => d.DiveParticipants)
-                    .ThenInclude(dp => dp.Person);
+                .Include(d => d.Diver)
+                .Include(d => d.DiveSupport);
 
             return View(await diveLoggContext.ToListAsync());
         }
+
 
         // GET: Dive/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -65,54 +66,62 @@ namespace DiveLogg.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DiveCreateViewModel model)
         {
-            //Kontrollera att dykare är vald
-            if (!model.Participants[0].PersonId.HasValue || model.Participants[0].PersonId.Value == 0)
+            var dive = model.Dive;
+
+            //Kontrollera obligatoriska fält
+            if (dive.Date == default)
+                ModelState.AddModelError("Dive.Date", "Datum måste anges");
+
+            if (dive.Depth <= 0 || dive.Depth > 100)
+                ModelState.AddModelError("Dive.Depth", "Djup måste vara mellan 0 och 100");
+
+            if (dive.DiveTime <= 0)
+                ModelState.AddModelError("Dive.DiveTime", "Dyktid måste anges");
+
+            if (dive.ExposureTime <= 0)
+                ModelState.AddModelError("Dive.ExposureTime", "Expositionstid måste anges");
+
+            if (string.IsNullOrWhiteSpace(dive.NitrogenLoad) || !System.Text.RegularExpressions.Regex.IsMatch(dive.NitrogenLoad, "^[A-Z]$"))
+                ModelState.AddModelError("Dive.NitrogenLoad", "Kvävebelastning måste vara en bokstav A-Z");
+
+            if (dive.Latitude < -90 || dive.Latitude > 90)
+                ModelState.AddModelError("Dive.Latitude", "Latitude måste vara mellan -90 och 90");
+
+            if (dive.Longitude < -180 || dive.Longitude > 180)
+                ModelState.AddModelError("Dive.Longitude", "Longitude måste vara mellan -180 och 180");
+
+            if (string.IsNullOrWhiteSpace(dive.LocationName))
+                ModelState.AddModelError("Dive.LocationName", "Dykplats måste anges");
+
+            if (!dive.DiveLeaderId.HasValue)
+                ModelState.AddModelError("Dive.DiveLeaderId", "Dykledare måste anges");
+
+            if (!dive.DiverId.HasValue)
+                ModelState.AddModelError("Dive.DiverId", "Dykare måste anges");
+
+            //Kontrollera så att en deltagare inte har flera roller vid samma dyk
+            var selectedIds = new List<int>();
+            if (dive.DiveLeaderId > 0) selectedIds.Add((int)dive.DiveLeaderId);
+            if (dive.DiverId > 0) selectedIds.Add((int)dive.DiverId);
+            if (dive.DiveSupportId.HasValue && dive.DiveSupportId.Value > 0)
+                selectedIds.Add(dive.DiveSupportId.Value);
+
+            if (selectedIds.Count != selectedIds.Distinct().Count())
             {
-                ModelState.AddModelError("Participants[0].PersonId", "Dykare måste väljas");
+                ModelState.AddModelError(string.Empty, "En person kan inte ha flera roller i samma dyk");
             }
 
-            //Kontrollera att ingen person har flera roller
-            var selectedPersons = new List<int> { model.Dive.DiveLeaderId };
-
-            selectedPersons.AddRange(
-                model.Participants
-                     .Where(p => p.PersonId.HasValue)
-                     .Select(p => p.PersonId!.Value)
-            );
-
-            //Om en person har mer än en roll visas ett felmeddelande
-            if (selectedPersons.Count != selectedPersons.Distinct().Count())
+            //Kontrollera om ModelState är giltig
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "En person kan bara ha en roll per dyk.");
+                CreateDropdowns(model);
+                return View(model);
             }
 
-            if (ModelState.IsValid)
-            {
-                //Spara dyket
-                _context.Add(model.Dive);
-                await _context.SaveChangesAsync();
-
-                //Spara deltagare
-                foreach (var participant in model.Participants)
-                {
-                    if (participant.PersonId.HasValue)
-                    {
-                        _context.DiveParticipant.Add(new DiveParticipant
-                        {
-                            DiveId = model.Dive.Id,
-                            PersonId = participant.PersonId.Value,
-                            RoleId = participant.RoleId
-                        });
-                    }
-                }
-
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-
-            CreateDropdowns(model);
-
-            return View(model);
+            //Spara dyk
+            _context.Add(dive);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Dive/Edit/5
@@ -210,26 +219,24 @@ namespace DiveLogg.Controllers
         //Fyller dropdown-menyerna med personer
         private void CreateDropdowns(DiveCreateViewModel model)
         {
-            //Hämtar alla personer med rollen dykledare
             model.DiveLeaders = new SelectList(
                 _context.PersonRole
-                    .Where(pr => pr.RoleId == 2)
+                    .Where(pr => pr.Role.Name == "DiveLeader")
                     .Select(pr => pr.Person),
                 "Id", "Name");
 
-            //Hämtar alla personer med rollen dykare
             model.Divers = new SelectList(
                 _context.PersonRole
-                    .Where(pr => pr.RoleId == 1)
+                    .Where(pr => pr.Role.Name == "Diver")
                     .Select(pr => pr.Person),
                 "Id", "Name");
 
-            //Hämtar alla personer med rollen dykskötare
             model.DiveSupports = new SelectList(
                 _context.PersonRole
-                    .Where(pr => pr.RoleId == 3)
+                    .Where(pr => pr.Role.Name == "DiveSupport")
                     .Select(pr => pr.Person),
                 "Id", "Name");
         }
+
     }
 }

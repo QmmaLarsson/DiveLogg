@@ -19,12 +19,8 @@ public class Person
     //Roller personen har (dykare, dykledare, dykskötare)
     public ICollection<PersonRole> PersonRoles { get; set; } = new List<PersonRole>();
 
-    //Dyk där personen deltar
-    public ICollection<DiveParticipant> DiveParticipants { get; set; } = new List<DiveParticipant>();
-
     //Dyk där person är dykledare
     public ICollection<Dive> LedDives { get; set; } = new List<Dive>();
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
 }

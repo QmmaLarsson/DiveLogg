@@ -56,16 +56,10 @@
                     @Html.DisplayFor(modelItem => item.DiveLeader.Name)
                 </td>
                 <td>
-                    @{
-                        var divers = item.DiveParticipants.Where(p => p.RoleId == 1).Select(p => p.Person.Name);
-                        @string.Join(", ", divers)
-                    }
+                    @Html.DisplayFor(modelItem => item.Diver.Name)
                 </td>
                 <td>
-                    @{
-                        var supports = item.DiveParticipants.Where(p => p.RoleId == 3).Select(p => p.Person.Name);
-                        @string.Join(", ", supports)
-                    }
+                    @Html.DisplayFor(modelItem => item.DiveSupport.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Depth)
