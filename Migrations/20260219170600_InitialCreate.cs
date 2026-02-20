@@ -70,12 +70,14 @@ namespace DiveLogg.Migrations
                     Depth = table.Column<int>(type: "INTEGER", nullable: false),
                     DiveTime = table.Column<int>(type: "INTEGER", nullable: false),
                     ExposureTime = table.Column<int>(type: "INTEGER", nullable: false),
-                    NitrogenLoad = table.Column<string>(type: "TEXT", maxLength: 1, nullable: false),
+                    NitrogenLoad = table.Column<string>(type: "TEXT", nullable: false),
                     Latitude = table.Column<double>(type: "REAL", nullable: false),
                     Longitude = table.Column<double>(type: "REAL", nullable: false),
-                    LocationName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
+                    LocationName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     Notes = table.Column<string>(type: "TEXT", nullable: true),
-                    DiveLeaderId = table.Column<int>(type: "INTEGER", nullable: false)
+                    DiveLeaderId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DiverId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DiveSupportId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,6 +85,18 @@ namespace DiveLogg.Migrations
                     table.ForeignKey(
                         name: "FK_Dive_Person_DiveLeaderId",
                         column: x => x.DiveLeaderId,
+                        principalTable: "Person",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Dive_Person_DiveSupportId",
+                        column: x => x.DiveSupportId,
+                        principalTable: "Person",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Dive_Person_DiverId",
+                        column: x => x.DiverId,
                         principalTable: "Person",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -108,39 +122,6 @@ namespace DiveLogg.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PersonRole_Role_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DiveParticipant",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    DiveId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PersonId = table.Column<int>(type: "INTEGER", nullable: false),
-                    RoleId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DiveParticipant", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DiveParticipant_Dive_DiveId",
-                        column: x => x.DiveId,
-                        principalTable: "Dive",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DiveParticipant_Person_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Person",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DiveParticipant_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id",
@@ -174,19 +155,14 @@ namespace DiveLogg.Migrations
                 column: "DiveLeaderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiveParticipant_DiveId",
-                table: "DiveParticipant",
-                column: "DiveId");
+                name: "IX_Dive_DiverId",
+                table: "Dive",
+                column: "DiverId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiveParticipant_PersonId",
-                table: "DiveParticipant",
-                column: "PersonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DiveParticipant_RoleId",
-                table: "DiveParticipant",
-                column: "RoleId");
+                name: "IX_Dive_DiveSupportId",
+                table: "Dive",
+                column: "DiveSupportId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_GroupId",
@@ -209,19 +185,16 @@ namespace DiveLogg.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DiveParticipant");
+                name: "Dive");
 
             migrationBuilder.DropTable(
                 name: "PersonRole");
 
             migrationBuilder.DropTable(
-                name: "Dive");
+                name: "Person");
 
             migrationBuilder.DropTable(
                 name: "Role");
-
-            migrationBuilder.DropTable(
-                name: "Person");
 
             migrationBuilder.DropTable(
                 name: "Group");

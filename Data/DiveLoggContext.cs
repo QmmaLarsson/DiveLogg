@@ -11,7 +11,6 @@ namespace DiveLogg.Data
         }
         //Tabeller
         public DbSet<Dive> Dive { get; set; }
-        public DbSet<DiveParticipant> DiveParticipant { get; set; }
         public DbSet<Person> Person { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<PersonRole> PersonRole { get; set; }
@@ -37,30 +36,26 @@ namespace DiveLogg.Data
                 .WithMany(r => r.PersonRoles)
                 .HasForeignKey(pr => pr.RoleId);
 
-            
-            // Dive ↔ Person (DiveLeader)
+            // Dykledare
             modelBuilder.Entity<Dive>()
                 .HasOne(d => d.DiveLeader)
                 .WithMany(p => p.LedDives)
                 .HasForeignKey(d => d.DiveLeaderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            
-            // Dive ↔ Person (DiveParticipant)
-            modelBuilder.Entity<DiveParticipant>()
-                .HasOne(dp => dp.Dive)
-                .WithMany(d => d.DiveParticipants)
-                .HasForeignKey(dp => dp.DiveId);
+            // Dykare
+            modelBuilder.Entity<Dive>()
+                .HasOne(d => d.Diver)
+                .WithMany()
+                .HasForeignKey(d => d.DiverId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<DiveParticipant>()
-                .HasOne(dp => dp.Person)
-                .WithMany(p => p.DiveParticipants)
-                .HasForeignKey(dp => dp.PersonId);
-
-            modelBuilder.Entity<DiveParticipant>()
-                .HasOne(dp => dp.Role)
-                .WithMany(r => r.DiveParticipants)
-                .HasForeignKey(dp => dp.RoleId);
+            // Dykskötare
+            modelBuilder.Entity<Dive>()
+                .HasOne(d => d.DiveSupport)
+                .WithMany()
+                .HasForeignKey(d => d.DiveSupportId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             //Seed-data
             //Skapar fyra standardgrupper som alltid finns i databasen

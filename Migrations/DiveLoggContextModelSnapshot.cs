@@ -32,7 +32,13 @@ namespace DiveLogg.Migrations
                     b.Property<int>("DiveLeaderId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("DiveSupportId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("DiveTime")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DiverId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ExposureTime")
@@ -42,7 +48,7 @@ namespace DiveLogg.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("LocationName")
-                        .HasMaxLength(200)
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Longitude")
@@ -50,7 +56,6 @@ namespace DiveLogg.Migrations
 
                     b.Property<string>("NitrogenLoad")
                         .IsRequired()
-                        .HasMaxLength(1)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Notes")
@@ -60,33 +65,11 @@ namespace DiveLogg.Migrations
 
                     b.HasIndex("DiveLeaderId");
 
+                    b.HasIndex("DiveSupportId");
+
+                    b.HasIndex("DiverId");
+
                     b.ToTable("Dive");
-                });
-
-            modelBuilder.Entity("DiveLogg.Models.DiveParticipant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DiveId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PersonId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DiveId");
-
-                    b.HasIndex("PersonId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("DiveParticipant");
                 });
 
             modelBuilder.Entity("DiveLogg.Models.Group", b =>
@@ -213,34 +196,22 @@ namespace DiveLogg.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("DiveLogg.Models.Person", "DiveSupport")
+                        .WithMany()
+                        .HasForeignKey("DiveSupportId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DiveLogg.Models.Person", "Diver")
+                        .WithMany()
+                        .HasForeignKey("DiverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("DiveLeader");
-                });
 
-            modelBuilder.Entity("DiveLogg.Models.DiveParticipant", b =>
-                {
-                    b.HasOne("DiveLogg.Models.Dive", "Dive")
-                        .WithMany("DiveParticipants")
-                        .HasForeignKey("DiveId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("DiveSupport");
 
-                    b.HasOne("DiveLogg.Models.Person", "Person")
-                        .WithMany("DiveParticipants")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DiveLogg.Models.Role", "Role")
-                        .WithMany("DiveParticipants")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Dive");
-
-                    b.Navigation("Person");
-
-                    b.Navigation("Role");
+                    b.Navigation("Diver");
                 });
 
             modelBuilder.Entity("DiveLogg.Models.Person", b =>
@@ -273,11 +244,6 @@ namespace DiveLogg.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("DiveLogg.Models.Dive", b =>
-                {
-                    b.Navigation("DiveParticipants");
-                });
-
             modelBuilder.Entity("DiveLogg.Models.Group", b =>
                 {
                     b.Navigation("Persons");
@@ -285,8 +251,6 @@ namespace DiveLogg.Migrations
 
             modelBuilder.Entity("DiveLogg.Models.Person", b =>
                 {
-                    b.Navigation("DiveParticipants");
-
                     b.Navigation("LedDives");
 
                     b.Navigation("PersonRoles");
@@ -294,8 +258,6 @@ namespace DiveLogg.Migrations
 
             modelBuilder.Entity("DiveLogg.Models.Role", b =>
                 {
-                    b.Navigation("DiveParticipants");
-
                     b.Navigation("PersonRoles");
                 });
 #pragma warning restore 612, 618

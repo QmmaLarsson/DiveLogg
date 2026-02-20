@@ -24,19 +24,17 @@
             </div>
             <!-- Dykare -->
             <div class="form-group">
-                <label>Dykare: </label>
-                <select asp-for="Participants[0].PersonId" asp-items="Model.Divers" class="form-control">
+                <label asp-for="Dive.DiverId" class="control-label">Dykare: </label>
+                <select asp-for="Dive.DiverId" asp-items="Model.Divers" class="form-control">
                     <option value=""></option>
                 </select>
-                <input type="hidden" asp-for="Participants[0].RoleId" />
             </div>
             <!-- Dykskötare -->
             <div class="form-group">
-                <label>Dykskötare: </label>
-                <select asp-for="Participants[1].PersonId" asp-items="Model.DiveSupports" class="form-control">
+                <label asp-for="Dive.DiveSupportId" class="control-label">Dykskötare: </label>
+                <select asp-for="Dive.DiveSupportId" asp-items="Model.DiveSupports" class="form-control">
                     <option value=""></option>
                 </select>
-                <input type="hidden" asp-for="Participants[1].RoleId" />
             </div>
             <div class="form-group">
                 <label asp-for="Dive.Depth" class="control-label">Djup: </label>
