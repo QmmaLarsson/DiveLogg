@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiveLogg.Migrations
 {
     [DbContext(typeof(DiveLoggContext))]
-    [Migration("20260220135434_InitialCreate")]
+    [Migration("20260220140953_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -29,7 +29,7 @@ namespace DiveLogg.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Depth")
+                    b.Property<int?>("Depth")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("DiveLeaderId")
@@ -38,23 +38,22 @@ namespace DiveLogg.Migrations
                     b.Property<int?>("DiveSupportId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DiveTime")
+                    b.Property<int?>("DiveTime")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("DiverId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ExposureTime")
+                    b.Property<int?>("ExposureTime")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("Latitude")
+                    b.Property<double?>("Latitude")
                         .HasColumnType("REAL");
 
                     b.Property<string>("LocationName")
-                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("Longitude")
+                    b.Property<double?>("Longitude")
                         .HasColumnType("REAL");
 
                     b.Property<string>("NitrogenLoad")
