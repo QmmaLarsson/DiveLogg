@@ -42,6 +42,8 @@ namespace DiveLogg.Controllers
 
             var dive = await _context.Dive
                 .Include(d => d.DiveLeader)
+                .Include(d => d.Diver)
+                .Include(d => d.DiveSupport)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (dive == null)
             {
@@ -101,7 +103,7 @@ namespace DiveLogg.Controllers
 
             if (!dive.DiverId.HasValue)
                 ModelState.AddModelError("Dive.DiverId", "Dykare måste anges");
-                
+
             if (!string.IsNullOrEmpty(dive.Notes) && dive.Notes.Length > 200)
                 ModelState.AddModelError("Dive.Notes", "Anteckningar får max vara 200 tecken");
 
@@ -193,6 +195,8 @@ namespace DiveLogg.Controllers
 
             var dive = await _context.Dive
                 .Include(d => d.DiveLeader)
+                .Include(d => d.Diver)
+                .Include(d => d.DiveSupport)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (dive == null)
             {
