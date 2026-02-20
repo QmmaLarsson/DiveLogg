@@ -29,7 +29,7 @@ namespace DiveLogg.Migrations
                     b.Property<int>("Depth")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DiveLeaderId")
+                    b.Property<int?>("DiveLeaderId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("DiveSupportId")
@@ -38,7 +38,7 @@ namespace DiveLogg.Migrations
                     b.Property<int>("DiveTime")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DiverId")
+                    b.Property<int?>("DiverId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ExposureTime")
@@ -55,7 +55,6 @@ namespace DiveLogg.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("NitrogenLoad")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Notes")
@@ -122,7 +121,6 @@ namespace DiveLogg.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
@@ -193,8 +191,7 @@ namespace DiveLogg.Migrations
                     b.HasOne("DiveLogg.Models.Person", "DiveLeader")
                         .WithMany("LedDives")
                         .HasForeignKey("DiveLeaderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DiveLogg.Models.Person", "DiveSupport")
                         .WithMany()
@@ -204,8 +201,7 @@ namespace DiveLogg.Migrations
                     b.HasOne("DiveLogg.Models.Person", "Diver")
                         .WithMany()
                         .HasForeignKey("DiverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("DiveLeader");
 

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Redigera</h1>
 
 <h4>Person</h4>
 <hr />
@@ -14,43 +14,45 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">Namn</label>
                 <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GroupId" class="control-label"></label>
+                <label asp-for="GroupId" class="control-label">Grupp</label>
                 <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
-                <span asp-validation-for="GroupId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input type="hidden" asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Roller</label>
                 @for (int i = 0; i < Model.AvailableRoles.Count; i++)
                 {
+                    var roleName = Model.AvailableRoles[i].Name switch
+                    {
+                        "DiveLeader" => "Dykledare",
+                        "Diver" => "Dykare",
+                        "DiveSupport" => "Dykskötare",
+                        _ => Model.AvailableRoles[i].Name
+                    };
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"           name="SelectedRoleIds"
-                               value="@Model.AvailableRoles[i].Id"                 id="role_@i"
+                        <input class="form-check-input" type="checkbox" name="SelectedRoleIds"
+                               value="@Model.AvailableRoles[i].Id" id="role_@i"
                         @(Model.SelectedRoleIds.Contains(Model.AvailableRoles[i].Id) ? "checked" : "") />
                         <label class="form-check-label" for="role_@i">
-                            @Model.AvailableRoles[i].Name
+                            @roleName
                         </label>
                     </div>
                 }
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Spara" class="btn btn-primary" />
             </div>
+            <!-- Felmeddelanden -->
+            <div asp-validation-summary="All" class="text-danger mb-2"></div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Tillbaka till lista</a>
 </div>
 
 @section Scripts {

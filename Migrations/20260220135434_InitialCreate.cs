@@ -45,7 +45,7 @@ namespace DiveLogg.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     GroupId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -70,13 +70,13 @@ namespace DiveLogg.Migrations
                     Depth = table.Column<int>(type: "INTEGER", nullable: false),
                     DiveTime = table.Column<int>(type: "INTEGER", nullable: false),
                     ExposureTime = table.Column<int>(type: "INTEGER", nullable: false),
-                    NitrogenLoad = table.Column<string>(type: "TEXT", nullable: false),
+                    NitrogenLoad = table.Column<string>(type: "TEXT", nullable: true),
                     Latitude = table.Column<double>(type: "REAL", nullable: false),
                     Longitude = table.Column<double>(type: "REAL", nullable: false),
                     LocationName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     Notes = table.Column<string>(type: "TEXT", nullable: true),
-                    DiveLeaderId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DiverId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DiveLeaderId = table.Column<int>(type: "INTEGER", nullable: true),
+                    DiverId = table.Column<int>(type: "INTEGER", nullable: true),
                     DiveSupportId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>

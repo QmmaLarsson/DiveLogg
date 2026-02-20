@@ -57,6 +57,7 @@ namespace DiveLogg.Data
                 .HasForeignKey(d => d.DiveSupportId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+
             //Seed-data
             //Skapar fyra standardgrupper som alltid finns i databasen
             modelBuilder.Entity<Group>().HasData(
