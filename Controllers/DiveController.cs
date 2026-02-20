@@ -72,32 +72,38 @@ namespace DiveLogg.Controllers
             if (dive.Date == default)
                 ModelState.AddModelError("Dive.Date", "Datum måste anges");
 
-            if (dive.Depth <= 0 || dive.Depth > 100)
+            if (dive.Depth <= 0 || dive.Depth > 100 || !dive.Depth.HasValue)
                 ModelState.AddModelError("Dive.Depth", "Djup måste vara mellan 0 och 100");
 
-            if (dive.DiveTime <= 0)
+            if (dive.DiveTime <= 0 || !dive.DiveTime.HasValue)
                 ModelState.AddModelError("Dive.DiveTime", "Dyktid måste anges");
 
-            if (dive.ExposureTime <= 0)
+            if (dive.ExposureTime <= 0 || !dive.ExposureTime.HasValue)
                 ModelState.AddModelError("Dive.ExposureTime", "Expositionstid måste anges");
 
             if (string.IsNullOrWhiteSpace(dive.NitrogenLoad) || !System.Text.RegularExpressions.Regex.IsMatch(dive.NitrogenLoad, "^[A-Z]$"))
                 ModelState.AddModelError("Dive.NitrogenLoad", "Kvävebelastning måste vara en bokstav A-Z");
 
-            if (dive.Latitude < -90 || dive.Latitude > 90)
+            if (dive.Latitude < -90 || dive.Latitude > 90 || !dive.Latitude.HasValue)
                 ModelState.AddModelError("Dive.Latitude", "Latitude måste vara mellan -90 och 90");
 
-            if (dive.Longitude < -180 || dive.Longitude > 180)
+            if (dive.Longitude < -180 || dive.Longitude > 180 || !dive.Longitude.HasValue)
                 ModelState.AddModelError("Dive.Longitude", "Longitude måste vara mellan -180 och 180");
 
             if (string.IsNullOrWhiteSpace(dive.LocationName))
                 ModelState.AddModelError("Dive.LocationName", "Dykplats måste anges");
+
+            if (!string.IsNullOrEmpty(dive.LocationName) && dive.LocationName.Length > 50)
+                ModelState.AddModelError("Dive.LocationName", "Dykplats får max vara 50 tecken");
 
             if (!dive.DiveLeaderId.HasValue)
                 ModelState.AddModelError("Dive.DiveLeaderId", "Dykledare måste anges");
 
             if (!dive.DiverId.HasValue)
                 ModelState.AddModelError("Dive.DiverId", "Dykare måste anges");
+                
+            if (!string.IsNullOrEmpty(dive.Notes) && dive.Notes.Length > 200)
+                ModelState.AddModelError("Dive.Notes", "Anteckningar får max vara 200 tecken");
 
             //Kontrollera så att en deltagare inte har flera roller vid samma dyk
             var selectedIds = new List<int>();
