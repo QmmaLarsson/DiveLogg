@@ -7,20 +7,18 @@
 <h1>Skapa person</h1>
 
 <h4>Person</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div>
+    <div>
         <form asp-action="Create" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label">Namn</label>
-                <input asp-for="Name" class="form-control" />
+            <div>
+                <label asp-for="Name">Namn</label>
+                <input asp-for="Name" />
             </div>
-            <div class="form-group">
-                <label asp-for="GroupId" class="control-label">Grupp</label>
-                <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
+            <div>
+                <label asp-for="GroupId">Grupp</label>
+                <select asp-for="GroupId" asp-items="ViewBag.GroupId"></select>
             </div>
-            <div class="form-group">
+            <div>
                 <label>Roller</label>
                 @for (int i = 0; i < Model.AvailableRoles.Count; i++)
                 {
@@ -33,22 +31,22 @@
                         "DiveSupport" => "Dykskötare",
                         _ => Model.AvailableRoles[i].Name
                     };
-                    <div class="form-check">
+                    <div>
                         <!-- Checkrutor för roller -->
-                        <input class="form-check-input" type="checkbox" name="SelectedRoleIds"
+                        <input type="checkbox" name="SelectedRoleIds"
                                value="@Model.AvailableRoles[i].Id" id="role_@i"
                         @(Model.SelectedRoleIds.Contains(Model.AvailableRoles[i].Id) ? "checked" : "") />
-                        <label class="form-check-label" for="role_@i">
+                        <label for="role_@i">
                             @roleName
                         </label>
                     </div>
                 }
             </div>
-            <div class="form-group">
-                <input type="submit" value="Skapa" class="btn btn-primary" />
+            <div>
+                <input type="submit" value="Skapa" />
             </div>
             <!-- Felmeddelanden -->
-            <div asp-validation-summary="All" class="text-danger mb-2"></div>
+            <div asp-validation-summary="All"></div>
         </form>
     </div>
 </div>

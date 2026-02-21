@@ -9,24 +9,23 @@
 <h3>Är du säker på att du vill ta bort personen?</h3>
 <div>
     <h4>Person</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
+    <dl>
+        <dt>
             Namn
         </dt>
-        <dd class="col-sm-10">
+        <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class="col-sm-2">
+        <dt>
             Grupp
         </dt>
-        <dd class="col-sm-10">
+        <dd>
             @Html.DisplayFor(model => model.Group.Name)
         </dd>
-        <dt class="col-sm-2">
+        <dt>
             Roller
         </dt>
-        <dd class="col-sm-10">
+        <dd>
 
             @if (Model.PersonRoles != null && Model.PersonRoles.Any())
             {
@@ -55,17 +54,17 @@
             }
 
         </dd>
-        <dt class="col-sm-2">
+        <dt>
             Skapad
         </dt>
-        <dd class="col-sm-10">
+        <dd>
             @Html.DisplayFor(model => model.CreatedAt)
         </dd>
     </dl>
 
     <form asp-action="Delete" onsubmit="return confirm('Är du säker på att du vill radera denna person?');">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Ta bort" class="btn btn-danger" /> |
+        <input type="submit" value="Ta bort" /> |
         <a asp-action="Index">Tillbaka till lista</a>
     </form>
 
