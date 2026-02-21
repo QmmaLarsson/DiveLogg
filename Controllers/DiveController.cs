@@ -57,6 +57,17 @@ namespace DiveLogg.Controllers
         public IActionResult Create()
         {
             var model = new DiveCreateViewModel();
+
+            //Sätter aktuell dag och tid
+            var now = DateTime.Now;
+            model.Dive.Date = new DateTime(
+                now.Year,
+                now.Month,
+                now.Day,
+                now.Hour,
+                now.Minute,
+                0);
+
             CreateDropdowns(model);
             return View(model);
         }
