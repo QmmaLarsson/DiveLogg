@@ -7,86 +7,84 @@
 <h1>Lägg till dyk</h1>
 
 <h4>Dyk</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div>
+    <div>
         <form asp-action="Create">
-
-            <div class="form-group">
-                <label asp-for="Dive.Date" class="control-label">Datum: </label>
-                <input asp-for="Dive.Date" class="form-control" />
+            <div>
+                <label asp-for="Dive.Date">Datum: </label>
+                <input asp-for="Dive.Date" />
             </div>
 
             <!-- Dykledare -->
-            <div class="form-group">
-                <label asp-for="Dive.DiveLeaderId" class="control-label">Dykledare: </label>
-                <select asp-for="Dive.DiveLeaderId" asp-items="Model.DiveLeaders" class="form-control">
+            <div>
+                <label asp-for="Dive.DiveLeaderId">Dykledare: </label>
+                <select asp-for="Dive.DiveLeaderId" asp-items="Model.DiveLeaders">
                     <option value=""></option>
                 </select>
             </div>
 
             <!-- Dykare -->
-            <div class="form-group">
-                <label asp-for="Dive.DiverId" class="control-label">Dykare: </label>
-                <select asp-for="Dive.DiverId" asp-items="Model.Divers" class="form-control">
+            <div>
+                <label asp-for="Dive.DiverId">Dykare: </label>
+                <select asp-for="Dive.DiverId" asp-items="Model.Divers">
                     <option value=""></option>
                 </select>
             </div>
 
             <!-- Dykskötare -->
-            <div class="form-group">
-                <label asp-for="Dive.DiveSupportId" class="control-label">Dykskötare: </label>
-                <select asp-for="Dive.DiveSupportId" asp-items="Model.DiveSupports" class="form-control">
+            <div>
+                <label asp-for="Dive.DiveSupportId">Dykskötare: </label>
+                <select asp-for="Dive.DiveSupportId" asp-items="Model.DiveSupports">
                     <option value=""></option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Dive.Depth" class="control-label">Djup: </label>
-                <input asp-for="Dive.Depth" class="form-control" />
+            <div>
+                <label asp-for="Dive.Depth">Djup: </label>
+                <input asp-for="Dive.Depth" />
             </div>
 
-            <div class="form-group">
-                <label asp-for="Dive.DiveTime" class="control-label">Dyktid: </label>
-                <input asp-for="Dive.DiveTime" class="form-control" />
+            <div>
+                <label asp-for="Dive.DiveTime">Dyktid: </label>
+                <input asp-for="Dive.DiveTime" />
             </div>
 
-            <div class="form-group">
-                <label asp-for="Dive.ExposureTime" class="control-label">Expositionstid: </label>
-                <input asp-for="Dive.ExposureTime" class="form-control" />
+            <div>
+                <label asp-for="Dive.ExposureTime">Expositionstid: </label>
+                <input asp-for="Dive.ExposureTime" />
             </div>
 
-            <div class="form-group">
-                <label asp-for="Dive.NitrogenLoad" class="control-label">Kvävebelastning: </label>
-                <input asp-for="Dive.NitrogenLoad" class="form-control" />
+            <div>
+                <label asp-for="Dive.NitrogenLoad">Kvävebelastning: </label>
+                <input asp-for="Dive.NitrogenLoad" />
             </div>
 
-            <div class="form-group">
-                <label asp-for="Dive.Latitude" class="control-label">Latitud: </label>
-                <input asp-for="Dive.Latitude" class="form-control" />
+            <div>
+                <label asp-for="Dive.Latitude">Latitud: </label>
+                <input asp-for="Dive.Latitude" />
             </div>
 
-            <div class="form-group">
-                <label asp-for="Dive.Longitude" class="control-label">Longitud: </label>
-                <input asp-for="Dive.Longitude" class="form-control" />
+            <div>
+                <label asp-for="Dive.Longitude">Longitud: </label>
+                <input asp-for="Dive.Longitude" />
             </div>
 
-            <div class="form-group">
-                <label asp-for="Dive.LocationName" class="control-label">Dykplats: </label>
-                <input asp-for="Dive.LocationName" class="form-control" />
+            <div>
+                <label asp-for="Dive.LocationName">Dykplats: </label>
+                <input asp-for="Dive.LocationName" />
             </div>
 
-            <div class="form-group">
-                <label asp-for="Dive.Notes" class="control-label">Anteckningar: </label>
-                <input asp-for="Dive.Notes" class="form-control" />
+            <div>
+                <label asp-for="Dive.Notes">Anteckningar: </label>
+                <input asp-for="Dive.Notes" />
             </div>
 
-            <div class="form-group mt-3">
-                <input type="submit" value="Spara" class="btn btn-primary" />
+            <div>
+                <input type="submit" value="Spara" />
             </div>
 
             <!-- Felmeddelanden -->
-            <div asp-validation-summary="All" class="text-danger mb-2"></div>
+            <div asp-validation-summary="All"></div>
         </form>
     </div>
 </div>
