@@ -133,57 +133,132 @@ namespace DiveLogg.Controllers
         }
 
         // GET: Dive/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var dive = await _context.Dive.FindAsync(id);
+            //Hämtar in sparade dyket
+            var dive = await _context.Dive
+                .FirstOrDefaultAsync(d => d.Id == id);
+
+            //Om dy inte hittas
             if (dive == null)
             {
                 return NotFound();
             }
-            ViewData["DiveLeaderId"] = new SelectList(_context.Person, "Id", "Name", dive.DiveLeaderId);
-            return View(dive);
+
+            var vm = new DiveEditViewModel
+            {
+                //Hämtar in värden från det sparade dyket till nya objektet vm(formuläret)
+                Id = dive.Id,
+                DiveDate = dive.Date,
+                Depth = dive.Depth,
+                DiveTime = dive.DiveTime,
+                ExposureTime = dive.ExposureTime,
+                NitrogenLoad = dive.NitrogenLoad,
+                Latitude = dive.Latitude,
+                Longitude = dive.Longitude,
+                LocationName = dive.LocationName,
+                Notes = dive.Notes,
+                DiveLeaderId = dive.DiveLeaderId,
+                DiverId = dive.DiverId,
+                DiveSupportId = dive.DiveSupportId
+            };
+
+            //Kör funktionen PopulateDropdowns som fyller på dropdowns med korrekt värde
+            PopulateDropdowns(vm);
+            return View(vm);
         }
 
+
         // POST: Dive/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Ändra i befintligt dyk och spara ändringar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Depth,DiveTime,ExposureTime,NitrogenLoad,Latitude,Longitude,LocationName,Notes,DiveLeaderId")] Dive dive)
+        public async Task<IActionResult> Edit(DiveEditViewModel vm)
         {
-            if (id != dive.Id)
+
+            //Hämta in dyk
+            var dive = await _context.Dive.FindAsync(vm.Id);
+
+            if (dive == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //Ändringar sparas till variabler i dyk 
+            dive.Date = vm.DiveDate;
+            dive.Depth = vm.Depth;
+            dive.DiveTime = vm.DiveTime;
+            dive.ExposureTime = vm.ExposureTime;
+            dive.NitrogenLoad = vm.NitrogenLoad;
+            dive.Latitude = vm.Latitude;
+            dive.Longitude = vm.Longitude;
+            dive.LocationName = vm.LocationName;
+            dive.Notes = vm.Notes;
+            dive.DiveLeaderId = vm.DiveLeaderId;
+            dive.DiverId = vm.DiverId;
+            dive.DiveSupportId = vm.DiveSupportId;
+
+            // felhanteringar
+            if (dive.Date == default)
+                ModelState.AddModelError("Dive.Date", "Datum måste anges");
+
+            if (dive.Depth <= 0 || dive.Depth > 100 || !dive.Depth.HasValue)
+                ModelState.AddModelError("Dive.Depth", "Djup måste vara mellan 0 och 100");
+
+            if (dive.DiveTime <= 0 || !dive.DiveTime.HasValue)
+                ModelState.AddModelError("Dive.DiveTime", "Dyktid måste anges");
+
+            if (dive.ExposureTime <= 0 || !dive.ExposureTime.HasValue)
+                ModelState.AddModelError("Dive.ExposureTime", "Expositionstid måste anges");
+
+            if (string.IsNullOrWhiteSpace(dive.NitrogenLoad) || !System.Text.RegularExpressions.Regex.IsMatch(dive.NitrogenLoad, "^[A-Z]$"))
+                ModelState.AddModelError("Dive.NitrogenLoad", "Kvävebelastning måste vara en bokstav A-Z");
+
+            if (dive.Latitude < -90 || dive.Latitude > 90 || !dive.Latitude.HasValue)
+                ModelState.AddModelError("Dive.Latitude", "Latitude måste vara mellan -90 och 90");
+
+            if (dive.Longitude < -180 || dive.Longitude > 180 || !dive.Longitude.HasValue)
+                ModelState.AddModelError("Dive.Longitude", "Longitude måste vara mellan -180 och 180");
+
+            if (string.IsNullOrWhiteSpace(dive.LocationName))
+                ModelState.AddModelError("Dive.LocationName", "Dykplats måste anges");
+
+            if (!string.IsNullOrEmpty(dive.LocationName) && dive.LocationName.Length > 50)
+                ModelState.AddModelError("Dive.LocationName", "Dykplats får max vara 50 tecken");
+
+            if (!dive.DiveLeaderId.HasValue)
+                ModelState.AddModelError("Dive.DiveLeaderId", "Dykledare måste anges");
+
+            if (!dive.DiverId.HasValue)
+                ModelState.AddModelError("Dive.DiverId", "Dykare måste anges");
+
+            if (!string.IsNullOrEmpty(dive.Notes) && dive.Notes.Length > 200)
+                ModelState.AddModelError("Dive.Notes", "Anteckningar får max vara 200 tecken");
+
+            //Kontrollera så att en deltagare inte har flera roller vid samma dyk
+            var selectedIds = new List<int>();
+            if (dive.DiveLeaderId > 0) selectedIds.Add((int)dive.DiveLeaderId);
+            if (dive.DiverId > 0) selectedIds.Add((int)dive.DiverId);
+            if (dive.DiveSupportId.HasValue && dive.DiveSupportId.Value > 0)
+                selectedIds.Add(dive.DiveSupportId.Value);
+
+            if (selectedIds.Count != selectedIds.Distinct().Count())
             {
-                try
-                {
-                    _context.Update(dive);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DiveExists(dive.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, "En person kan inte ha flera roller i samma dyk");
             }
-            ViewData["DiveLeaderId"] = new SelectList(_context.Person, "Id", "Name", dive.DiveLeaderId);
-            return View(dive);
+
+            if (!ModelState.IsValid)
+            {
+                PopulateDropdowns(vm);
+                return View(vm);
+            }
+
+            //Spara ändringar och återvänd till index för dyk
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+
 
         // GET: Dive/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -221,11 +296,6 @@ namespace DiveLogg.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DiveExists(int id)
-        {
-            return _context.Dive.Any(e => e.Id == id);
-        }
-
         //Fyller dropdown-menyerna med personer
         private void CreateDropdowns(DiveCreateViewModel model)
         {
@@ -246,6 +316,33 @@ namespace DiveLogg.Controllers
                     .Where(pr => pr.Role.Name == "DiveSupport")
                     .Select(pr => pr.Person),
                 "Id", "Name");
+        }
+
+        private void PopulateDropdowns(DiveEditViewModel vm)
+        {
+            vm.DiveLeaders = new SelectList(
+                _context.Person
+                    .Where(p => p.PersonRoles.Any(pr => pr.Role.Name == "DiveLeader")),
+                "Id",
+                "Name",
+                vm.DiveLeaderId
+            );
+
+            vm.Divers = new SelectList(
+                _context.Person
+                    .Where(p => p.PersonRoles.Any(pr => pr.Role.Name == "Diver")),
+                "Id",
+                "Name",
+                vm.DiverId
+            );
+
+            vm.DiveSupports = new SelectList(
+                _context.Person
+                    .Where(p => p.PersonRoles.Any(pr => pr.Role.Name == "DiveSupport")),
+                "Id",
+                "Name",
+                vm.DiveSupportId
+            );
         }
 
     }
