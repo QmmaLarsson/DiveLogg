@@ -12,20 +12,20 @@
         <form asp-action="Edit" method="post">
 
             <div>
-                <label asp-for="DiveDate"></label>
+                <label asp-for="DiveDate">Datum: </label>
                 <input asp-for="DiveDate" />
                 <span asp-validation-for="DiveDate"></span>
             </div>
 
             <!-- Dykledare -->
             <div>
-                <label asp-for="DiveLeaderId"></label>
+                <label asp-for="DiveLeaderId">Dyklerade: </label>
                 <select asp-for="DiveLeaderId" asp-items="Model.DiveLeaders"></select>
             </div>
 
             <!-- Dykare -->
             <div>
-                <label asp-for="DiverId"></label>
+                <label asp-for="DiverId">Dykare: </label>
                 <select asp-for="DiverId" asp-items="Model.Divers"></select>
             </div>
 
@@ -38,47 +38,47 @@
             </div>
 
             <div>
-                <label asp-for="Depth"></label>
+                <label asp-for="Depth">Djup: </label>
                 <input asp-for="Depth" />
             </div>
 
             <div>
-                <label asp-for="DiveTime"></label>
+                <label asp-for="DiveTime">Dyktid: </label>
                 <input asp-for="DiveTime" />
             </div>
 
             <div>
-                <label asp-for="ExposureTime"></label>
+                <label asp-for="ExposureTime">Expositionstid: </label>
                 <input asp-for="ExposureTime" />
             </div>
 
             <div>
-                <label asp-for="NitrogenLoad"></label>
+                <label asp-for="NitrogenLoad">Kvävebelastning: </label>
                 <input asp-for="NitrogenLoad" />
             </div>
 
             <div>
-                <label asp-for="Latitude"></label>
+                <label asp-for="Latitude">Latitud: </label>
                 <input asp-for="Latitude" />
             </div>
 
             <div>
-                <label asp-for="Longitude"></label>
+                <label asp-for="Longitude">Longitud: </label>
                 <input asp-for="Longitude" />
             </div>
 
             <div>
-                <label asp-for="LocationName"></label>
+                <label asp-for="LocationName">Dykplats: </label>
                 <input asp-for="LocationName" />
             </div>
 
             <div>
-                <label asp-for="Notes"></label>
+                <label asp-for="Notes">Anteckningar: </label>
                 <input asp-for="Notes" />
             </div>
 
             <div>
-                <input type="submit" value="Save" />
+                <input type="submit" value="Spara" />
             </div>
 
             <!-- Felmeddelanden -->
