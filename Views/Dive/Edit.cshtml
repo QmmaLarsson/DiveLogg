@@ -6,88 +6,86 @@
 
 <h1>Redigera</h1>
 
-<h4>Dyk</h4>
 <div>
     <div>
-        <form asp-action="Edit" method="post">
-
-            <div>
+        <form asp-action="Edit" method="post" class="dive-form">
+            <h2>Redigera dyk</h2>
+            <!-- Felmeddelanden -->
+            <div asp-validation-summary="All"></div>
+            <div class="form-row">
                 <label asp-for="DiveDate">Datum: </label>
                 <input asp-for="DiveDate" />
                 <span asp-validation-for="DiveDate"></span>
             </div>
 
             <!-- Dykledare -->
-            <div>
-                <label asp-for="DiveLeaderId">Dyklerade: </label>
+            <div class="form-row">
+                <label asp-for="DiveLeaderId">Dykledare: </label>
                 <select asp-for="DiveLeaderId" asp-items="Model.DiveLeaders"></select>
             </div>
 
             <!-- Dykare -->
-            <div>
+            <div class="form-row">
                 <label asp-for="DiverId">Dykare: </label>
                 <select asp-for="DiverId" asp-items="Model.Divers"></select>
             </div>
 
             <!-- Dykskötare -->
-            <div>
+            <div class="form-row">
                 <label asp-for="DiveSupportId">Dykskötare: </label>
                 <select asp-for="DiveSupportId" asp-items="Model.DiveSupports">
                     <option value=""></option>
                 </select>
             </div>
 
-            <div>
+            <div class="form-row">
                 <label asp-for="Depth">Djup: </label>
                 <input asp-for="Depth" />
             </div>
 
-            <div>
+            <div class="form-row">
                 <label asp-for="DiveTime">Dyktid: </label>
                 <input asp-for="DiveTime" />
             </div>
 
-            <div>
+            <div class="form-row">
                 <label asp-for="ExposureTime">Expositionstid: </label>
                 <input asp-for="ExposureTime" />
             </div>
 
-            <div>
+            <div class="form-row">
                 <label asp-for="NitrogenLoad">Kvävebelastning: </label>
                 <input asp-for="NitrogenLoad" />
             </div>
 
-            <div>
+            <div class="form-row">
                 <label asp-for="Latitude">Latitud: </label>
                 <input asp-for="Latitude" />
             </div>
 
-            <div>
+            <div class="form-row">
                 <label asp-for="Longitude">Longitud: </label>
                 <input asp-for="Longitude" />
             </div>
 
-            <div>
+            <div class="form-row">
                 <label asp-for="LocationName">Dykplats: </label>
                 <input asp-for="LocationName" />
             </div>
 
-            <div>
-                <label asp-for="Notes">Anteckningar: </label>
-                <input asp-for="Notes" />
+            <div class="form-row">
+                <label asp-for="Notes">Anteckningar:</label>
+                <textarea asp-for="Notes"></textarea>
             </div>
 
             <div>
-                <input type="submit" value="Spara" />
+                <input type="submit" value="Save" class="submit-btn" />
             </div>
-
-            <!-- Felmeddelanden -->
-            <div asp-validation-summary="All"></div>
         </form>
     </div>
 </div>
 
-<div>
+<div class="navigate-back">
     <a asp-action="Index">Tillbaka till lista</a>
 </div>
 

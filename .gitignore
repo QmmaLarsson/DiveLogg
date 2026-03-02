@@ -7,6 +7,8 @@ publish/
 
 # SQLite databaser
 *.db
+*.db-shm
+*.db-wal
 
 # Loggfiler
 *.log
