@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="sv">
 <head>
     <meta charset="utf-8" />
@@ -9,33 +9,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layoutHero.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DiveLogg.styles.css" asp-append-version="true" />
-
-    @RenderSection("LayoutStyles", required: false)
 </head>
 
 <body>
+    <div class="page-wrapper">
+        <div class="hero-wrapper">
 
-    <div class="main-content">
-        <header>
-            @await Html.PartialAsync("_Menu")
-        </header>
+            <div class="hero-background"></div>
 
-        <main>
-            @RenderBody()
-        </main>
-        
-        <footer>
-            <div>
-                <p>&copy; 2026 - DiveLogg</p>
+            <header class="hero-header">
+                @await Html.PartialAsync("_Menu")
+            </header>
+
+            <div class="hero-content">
+                @RenderSection("Hero", required: false)
             </div>
+
+        </div>
+
+        <div class="main-content">
+            <main>
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 - DiveLogg</p>
         </footer>
     </div>
 
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
-
-</html>

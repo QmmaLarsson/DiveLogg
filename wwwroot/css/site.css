@@ -3,18 +3,20 @@ html {
 }
 
 body {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    background-image: url('/images/backgroundPattern.png');
+    background-repeat: repeat;
+    background-size: 300px 300px;
+    background-position: top left;
 }
 
 .main-nav {
     background: linear-gradient(180deg, #27374D, #27374d00);
-    padding: 1rem 0;
-    padding-bottom: 7rem;
+    padding: 1rem 0 7rem 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    z-index: 3;
 
 }
 
