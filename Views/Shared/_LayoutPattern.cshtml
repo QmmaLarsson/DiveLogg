@@ -9,35 +9,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/layoutHero.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layoutPattern.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/about.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DiveLogg.styles.css" asp-append-version="true" />
 </head>
 
 <body>
     <div class="page-wrapper">
-        <div class="hero-wrapper">
+        <div class="bg-pattern"></div>
 
-            <div class="hero-background"></div>
-
+        <div class="page-content">
             <header class="hero-header">
                 @await Html.PartialAsync("_Menu")
             </header>
 
-            <div class="hero-content">
-                @RenderSection("Hero", required: false)
+            <div class="main-content">
+                <main>
+                    @RenderBody()
+                </main>
             </div>
 
+            <footer>
+                <p>&copy; 2026 - DiveLogg</p>
+            </footer>
         </div>
 
-        <div class="main-content">
-            <main>
-                @RenderBody()
-            </main>
-        </div>
-
-        <footer>
-            <p>&copy; 2026 - DiveLogg</p>
-        </footer>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
