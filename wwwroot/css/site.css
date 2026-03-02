@@ -1,0 +1,75 @@
+html {
+    font-family: "Jura", sans-serif;
+}
+
+body {
+    background-image: url('/images/backgroundPattern.png');
+    background-repeat: repeat;
+    background-size: 300px 300px;
+    background-position: top left;
+}
+
+.main-nav {
+    background: linear-gradient(180deg, #27374D, #27374d00);
+    padding: 1rem 0 7rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.nav-list li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: 0.2s ease;
+}
+
+.nav-list li a:hover {
+    text-decoration: underline
+}
+
+.menu-toggle {
+    display: none;
+    position: absolute;
+    right: 1.5rem;
+    top: 2rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .nav-list.active {
+        display: flex;              
+    }
+}

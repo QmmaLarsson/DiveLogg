@@ -25,22 +25,7 @@
                 Dykskötare
             </th>
             <th>
-                Djup
-            </th>
-            <th>
-                Dyktid
-            </th>
-            <th>
-                Expositionstid
-            </th>
-            <th>
-                Kvävebelastning
-            </th>
-            <th>
                 Dykplats
-            </th>
-            <th>
-                Anteckningar
             </th>
             <th></th>
         </tr>
@@ -62,22 +47,7 @@
                     @Html.DisplayFor(modelItem => item.DiveSupport.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Depth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DiveTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExposureTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NitrogenLoad)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.LocationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Notes)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Redigera</a> |

@@ -11,7 +11,7 @@
         <form asp-action="Edit" method="post" class="dive-form">
             <h2>Redigera dyk</h2>
             <!-- Felmeddelanden -->
-            <div asp-validation-summary="All" class="error"></div>
+            <div asp-validation-summary="All"></div>
             <div class="form-row">
                 <label asp-for="DiveDate">Datum: </label>
                 <input asp-for="DiveDate" />
@@ -74,7 +74,7 @@
             </div>
 
             <div class="form-row">
-                <label asp-for="Notes">Anteckningar: </label>
+                <label asp-for="Notes">Anteckningar:</label>
                 <textarea asp-for="Notes"></textarea>
             </div>
 
