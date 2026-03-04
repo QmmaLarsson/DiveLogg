@@ -1,67 +1,67 @@
 @model DiveLogg.Models.Person
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detaljer";
 }
 
 <h1>Detaljer</h1>
 
-<div>
-    <h4>Person</h4>
-    <dl>
-        <dt>
-            Namn
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            Grupp
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Group.Name)
-        </dd>
-        <dt>
-            Skapad
-        </dt>
-        <dd>
-            @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")
-        </dd>
-        <dt>
-            Roller
-        </dt>
-        <dd>
+<div class="person-card">
 
-            @if (Model.PersonRoles != null && Model.PersonRoles.Any())
-            {
-                <ul>
-                    @foreach (var personRole in Model.PersonRoles)
-                    {
-                        <li>
-                            @{
+    <h3 class="person-title">
+        @Model.Name
+    </h3>
+
+    <div class="person-content">
+
+        <dl class="person-details">
+
+            <dt>Grupp</dt>
+            <dd>@Html.DisplayFor(model => model.Group.Name)</dd>
+
+            <dt>Skapad</dt>
+            <dd>@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</dd>
+
+            <dt>Roller</dt>
+            <dd>
+                @if (Model.PersonRoles != null && Model.PersonRoles.Any())
+                {
+                    <ul class="role-list">
+                        @foreach (var personRole in Model.PersonRoles)
+                        {
                             var roleName = personRole.Role.Name switch
-                                {
+                            {
                                 "DiveLeader" => "Dykledare",
                                 "Diver" => "Dykare",
                                 "DiveSupport" => "Dykskötare",
                                 _ => personRole.Role.Name
-                                };
-                            }
-                            @roleName
-                        </li>
+                            };
 
-                    }
-                </ul>
-            }
-            else
-            {
-                <span>Inga roller tilldelade</span>
-            }
+                            <li>@roleName</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span>Inga roller tilldelade</span>
+                }
+            </dd>
 
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Redigera</a> |
-    <a asp-action="Index">Tillbaka till lista</a>
+        </dl>
+
+    </div>
+
+    <div class="person-actions">
+        <a class="person-btn"
+           asp-action="Edit"
+           asp-route-id="@Model?.Id">
+            Redigera
+        </a>
+
+        <a class="person-btn"
+           asp-action="Index">
+            Tillbaka till lista
+        </a>
+    </div>
+
 </div>

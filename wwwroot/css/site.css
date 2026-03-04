@@ -17,14 +17,12 @@ html {
 }
 
 body {
-    background-image: url('/images/backgroundPattern.png');
-    background-repeat: repeat;
-    background-size: 300px 300px;
-    background-position: top left;
+    background: linear-gradient(90deg, #9DB2BF, #27374d, #9DB2BF);
     min-height: 100vh;
     line-height: 1.5;
     /*Textstorlek 16px som standard*/
     font-size: 1.6rem;
+    color: white;
 }
 
 h1 {
@@ -33,7 +31,6 @@ h1 {
     margin-top: 1rem;
     margin-bottom: 1rem;
     text-align: center;
-    color: white;
 }
 
 h2 {
@@ -63,7 +60,7 @@ select {
 }
 
 .main-nav {
-    background: linear-gradient(180deg, #27374D, #27374d50, #27374d00);
+    background: linear-gradient(180deg, #27374D, #27374dbe, #27374d00);
     padding: 1rem 0 7rem 0;
     display: flex;
     justify-content: center;
@@ -109,30 +106,66 @@ select {
 }
 
 footer {
-    background: linear-gradient(180deg, #27374d00, #27374d50, #27374D);
-    padding: 7rem 0 1rem 0;
+    background: linear-gradient(180deg, #27374d00, #27374dbf, #27374D);
+    padding: 7rem 0 3rem 0;
     color: white;
     text-align: center;
-    position: absolute;
     width: 100%;
-    bottom: 0;
+    max-width: 1920px;
 }
 
 @media (max-width: 768px) {
 
+    .main-nav {
+        background: linear-gradient(180deg, #27374D, #27374dbe, #27374d00);
+        padding: 1rem 0 7rem 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1002;
+    }
+
+    main {
+        margin: 0 !important;
+        padding: 8rem 1rem 0rem 1rem !important;
+        /* justera efter navbarens höjd */
+    }
+
     .menu-toggle {
         display: block;
+        z-index: 2000;
     }
 
     .nav-list {
-        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 50%;
+        height: 100vh;
+        background: #27374D;
         flex-direction: column;
+        justify-content: center;
         align-items: center;
-        gap: 1rem;
-        margin-top: 1rem;
+        gap: 2rem;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
     }
 
     .nav-list.active {
-        display: flex;              
+        transform: translateX(0);
     }
+}
+
+@media (max-width: 500px) {
+
+    .nav-list {
+        width: 80%;
+    }
+
 }

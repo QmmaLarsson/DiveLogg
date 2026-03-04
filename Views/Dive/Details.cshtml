@@ -6,84 +6,50 @@
 
 <h1>Detaljer</h1>
 
-<div>
-    <h4>Dive</h4>
-    <dl>
-        <dt>
-            Datum
-        </dt>
-        <dd>
-            @Model.Date.ToString("yyyy-MM-dd HH:mm")
-        </dd>
-        <dt>
-            Dykledare
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DiveLeader.Name)
-        </dd>
-        <dt>
-            Dykare
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Diver.Name)
-        </dd>
-        <dt>
-            Dykskötare
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DiveSupport.Name)
-        </dd>
-        <dt>
-            Djup
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Depth)
-        </dd>
-        <dt>
-            Dyktid
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DiveTime)
-        </dd>
-        <dt>
-            Expositionstid
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ExposureTime)
-        </dd>
-        <dt>
-            Kvävebelastning
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NitrogenLoad)
-        </dd>
-        <dt>
-            Latitud
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Latitude)
-        </dd>
-        <dt>
-            Longitud
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Longitude)
-        </dd>
-        <dt>
-            Dykplats
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LocationName)
-        </dd>
-        <dt>
-            Anteckningar
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Notes)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Redigera</a> |
-    <a asp-action="Index">Tillbaka</a>
+<div class="dive-form dive-details">
+    <h3 class="dive-title">
+        @Model.Date.ToString("yyyy-MM-dd HH:mm")
+        – @Model.LocationName
+    </h3>
+    <div class="details-layout">
+
+        <!-- Vänster kolumn, texter -->
+        <dl class="details-list">
+
+            <dt>Dykledare</dt>
+            <dd>@Model.DiveLeader.Name</dd>
+
+            <dt>Dykare</dt>
+            <dd>@Model.Diver.Name</dd>
+
+            <dt>Dykskötare</dt>
+            <dd>@Model.DiveSupport.Name</dd>
+
+            <dt>Djup</dt>
+            <dd>@Model.Depth m</dd>
+
+            <dt>Dyktid</dt>
+            <dd>@Model.DiveTime</dd>
+
+            <dt>Expositionstid</dt>
+            <dd>@Model.ExposureTime</dd>
+
+            <dt>Kvävebelastning</dt>
+            <dd>@Model.NitrogenLoad</dd>
+
+            <dt>Anteckningar</dt>
+            <dd>@Model.Notes</dd>
+
+        </dl>
+
+        <!-- Karta -->
+        <div class="map-placeholder">
+            <span>Karta kommer här</span>
+        </div>
+
+    </div>
+    <div class="details-buttons">
+        <a class="submit-btn action-btn" asp-action="Edit" asp-route-id="@Model?.Id">Redigera</a>
+        <a class="submit-btn action-btn" asp-action="Index">Tillbaka</a>
+    </div>
 </div>

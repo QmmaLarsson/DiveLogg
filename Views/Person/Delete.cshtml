@@ -6,66 +6,58 @@
 
 <h1>Ta bort</h1>
 
-<h3>Är du säker på att du vill ta bort personen?</h3>
-<div>
-    <h4>Person</h4>
-    <dl>
-        <dt>
-            Namn
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            Grupp
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Group.Name)
-        </dd>
-        <dt>
-            Roller
-        </dt>
-        <dd>
+<h2>Är du säker på att du vill ta bort personen?</h2>
 
-            @if (Model.PersonRoles != null && Model.PersonRoles.Any())
-            {
-                <ul>
-                    @foreach (var personRole in Model.PersonRoles)
-                    {
-                        <li>
-                            @{
-                                var roleName = personRole.Role.Name switch
-                                {
-                                    "DiveLeader" => "Dykledare",
-                                    "Diver" => "Dykare",
-                                    "DiveSupport" => "Dykskötare",
-                                    _ => personRole.Role.Name
-                                };
-                            }
-                            @roleName
-                        </li>
+<div class="person-card">
 
-                    }
-                </ul>
-            }
-            else
-            {
-                <span>Inga roller tilldelade</span>
-            }
+    <h3 class="person-title">
+        @Model.Name
+    </h3>
 
-        </dd>
-        <dt>
-            Skapad
-        </dt>
-        <dd>
-            @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")
-        </dd>
-    </dl>
+    <div class="person-content">
 
-    <form asp-action="Delete" onsubmit="return confirm('Är du säker på att du vill radera denna person?');">
+        <dl class="person-details">
+
+            <dt>Grupp</dt>
+            <dd>@Html.DisplayFor(model => model.Group.Name)</dd>
+
+            <dt>Skapad</dt>
+            <dd>@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</dd>
+
+            <dt>Roller</dt>
+            <dd>
+                @if (Model.PersonRoles != null && Model.PersonRoles.Any())
+                {
+                    <ul class="role-list">
+                        @foreach (var personRole in Model.PersonRoles)
+                        {
+                            var roleName = personRole.Role.Name switch
+                            {
+                                "DiveLeader" => "Dykledare",
+                                "Diver" => "Dykare",
+                                "DiveSupport" => "Dykskötare",
+                                _ => personRole.Role.Name
+                            };
+
+                            <li>@roleName</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span>Inga roller tilldelade</span>
+                }
+            </dd>
+
+        </dl>
+
+    </div>
+
+    <form class="person-actions" asp-action="Delete"
+          onsubmit="return confirm('Är du säker på att du vill radera denna person?');">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Ta bort" /> |
-        <a asp-action="Index">Tillbaka till lista</a>
+        <input class="person-btn" type="submit" value="Ta bort" />
+        <a class="person-btn" asp-action="Index">Tillbaka till lista</a>
     </form>
 
 </div>

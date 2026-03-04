@@ -10,7 +10,8 @@ main {
     padding: 0 1rem;
 }
 
-footer {
-    position: relative;
-    width: 100%;
+@media (max-width: 768px) {
+    main {
+        padding: 10rem auto;
+    }
 }
