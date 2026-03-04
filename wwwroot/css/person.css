@@ -1,3 +1,90 @@
+.person-form {
+    max-width: 650px;
+    margin: 0 auto 2rem auto;
+    padding: 2rem;
+    background: #9DB2BF;
+    border-radius: 14px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    color: #fff;
+    text-align: center;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.person-form label {
+    width: 50%;
+    text-align: right;
+    margin-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.person-form input,
+.person-form select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: none;
+}
+
+.person-form input {
+    max-width: 45%;
+}
+
+.person-form select {
+    cursor: pointer;
+}
+
+.checkbox-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox-row input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.submit-btn {
+    background-color: #E17100;
+    color: white;
+    box-shadow: 5px 5px 0px rgba(100, 100, 100, 0.7);
+    height: 40px;
+    width: 110px;
+    border-radius: 0 !important;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-bottom: 1rem;
+}
+
+.submit-btn:hover {
+    transform: scale(1.05);
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.error {
+    padding: 1rem;
+    background-color: #FFE5CC;
+    border-left: 4px solid #E17100;
+    color: #E17100;
+    border-radius: 5px;
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
 .navigate-back a {
     color: white;
 }
