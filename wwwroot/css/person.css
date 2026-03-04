@@ -1,0 +1,82 @@
+.navigate-back a {
+    color: white;
+}
+
+.page-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/*Skapar en scrollbar på små skärmar*/
+.table-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+
+.person-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: auto;
+}
+
+.person-table th {
+    background-color: #E17100;
+    color: white;
+    padding: 1rem;
+    text-align: left;
+}
+
+.person-table td {
+    padding: 1rem;
+}
+
+/*Bakgrundsfärg på jämna rader*/
+.person-table tbody tr:nth-child(even) {
+    background-color: #9DB2BF;
+}
+
+/*Bakgrundsfärg på ojämna rader*/
+.person-table tbody tr:nth-child(odd) {
+    background-color: #DDE6ED;
+}
+
+.button-wrapper {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.table-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background-color: #E17100;
+    color: white;
+    box-shadow: 5px 5px 0px rgba(100, 100, 100, 0.7);
+    height: 40px;
+    width: 110px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.table-btn:hover {
+    transform: scale(1.05);
+}
+
+.add-btn {
+    float: right;
+    margin-bottom: 1rem;
+    margin-right: 0.5rem;
+}
