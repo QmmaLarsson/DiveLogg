@@ -4,55 +4,56 @@
     ViewData["Title"] = "Skapa person";
 }
 
-<h1>Skapa person</h1>
+<h1>Ny person</h1>
 
-<h4>Person</h4>
 <div>
     <div>
-        <form asp-action="Create" method="post">
-            <div>
-                <label asp-for="Name">Namn</label>
+        <form asp-action="Create" method="post" class="person-form">
+            <h2>Person</h2>
+            <!-- Felmeddelanden -->
+            <div asp-validation-summary="All" class="error"></div>
+            <div class="form-row">
+                <label asp-for="Name">Namn: </label>
                 <input asp-for="Name" />
             </div>
-            <div>
-                <label asp-for="GroupId">Grupp</label>
+            <div class="form-row">
+                <label asp-for="GroupId">Grupp: </label>
                 <select asp-for="GroupId" asp-items="ViewBag.GroupId"></select>
             </div>
-            <div>
-                <label>Roller</label>
-                @for (int i = 0; i < Model.AvailableRoles.Count; i++)
-                {
-
-                    //Lagt in översättning av rollernas namn
-                    var roleName = Model.AvailableRoles[i].Name switch
+            <div class="form-row">
+                <label>Roller: </label>
+                <div class="checkbox-column">
+                    @for (int i = 0; i < Model.AvailableRoles.Count; i++)
                     {
-                        "DiveLeader" => "Dykledare",
-                        "Diver" => "Dykare",
-                        "DiveSupport" => "Dykskötare",
-                        _ => Model.AvailableRoles[i].Name
-                    };
-                    <div>
-                        <!-- Checkrutor för roller -->
-                        <input type="checkbox" name="SelectedRoleIds"
-                               value="@Model.AvailableRoles[i].Id" id="role_@i"
-                        @(Model.SelectedRoleIds.Contains(Model.AvailableRoles[i].Id) ? "checked" : "") />
-                        <label for="role_@i">
-                            @roleName
-                        </label>
-                    </div>
-                }
+
+                        //Lagt in översättning av rollernas namn
+                        var roleName = Model.AvailableRoles[i].Name switch
+                        {
+                            "DiveLeader" => "Dykledare",
+                            "Diver" => "Dykare",
+                            "DiveSupport" => "Dykskötare",
+                            _ => Model.AvailableRoles[i].Name
+                        };
+                        <div class="checkbox-row">
+                            <!-- Checkrutor för roller -->
+                            <input type="checkbox" name="SelectedRoleIds" value="@Model.AvailableRoles[i].Id" id="role_@i"
+                            @(Model.SelectedRoleIds.Contains(Model.AvailableRoles[i].Id) ? "checked" : "") />
+                            <label for="role_@i">
+                                @roleName
+                            </label>
+                        </div>
+                    }
+                </div>
             </div>
             <div>
-                <input type="submit" value="Skapa" />
+                <input type="submit" value="Skapa" class="submit-btn" />
             </div>
-            <!-- Felmeddelanden -->
-            <div asp-validation-summary="All"></div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Tillbaka till lista</a>
+<div class="navigate-back">
+    <a asp-action="Index">Tillbaka till Personal</a>
 </div>
 
 @section Scripts {

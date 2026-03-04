@@ -5,57 +5,63 @@
     Layout = "_LayoutPattern";
 }
 
-<h1>Index</h1>
+<h1>Dyklogg</h1>
 
-<p>
-    <a asp-action="Create">Lägg till dyk</a>
-</p>
-<table>
-    <thead>
-        <tr>
-            <th>
-                Datum
-            </th>
-            <th>
-                Dykledare
-            </th>
-            <th>
-                Dykare
-            </th>
-            <th>
-                Dykskötare
-            </th>
-            <th>
-                Dykplats
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.Date.ToString("yyyy-MM-dd HH:mm")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DiveLeader.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Diver.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DiveSupport.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LocationName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Redigera</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Detaljer</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="page-container">
+    <p>
+        <a asp-action="Create" class="table-btn add-btn">Nytt dyk</a>
+    </p>
+    <div class="table-container">
+        <table class="dive-table">
+            <thead>
+                <tr>
+                    <th>
+                        Datum
+                    </th>
+                    <th>
+                        Dykledare
+                    </th>
+                    <th>
+                        Dykare
+                    </th>
+                    <th>
+                        Dykskötare
+                    </th>
+                    <th>
+                        Dykplats
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Date.ToString("yyyy-MM-dd HH:mm")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DiveLeader.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Diver.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DiveSupport.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LocationName)
+                        </td>
+                        <td>
+                            <div class="button-wrapper">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="table-btn">Redigera</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="table-btn">Detaljer</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="table-btn">Ta bort</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
