@@ -163,6 +163,8 @@ h2 {
         grid-template-columns: 130px 1fr;
     }
   
+}
+
 .page-container {
     padding-left: 2rem;
     padding-right: 2rem;
