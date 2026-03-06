@@ -64,4 +64,19 @@
             </tbody>
         </table>
     </div>
+    @if (ViewBag.TotalPages > 1)
+    {
+        <div class="pagination">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <a asp-action="Index" asp-route-page="@i" class="@(ViewBag.CurrentPage == i ? "active-page" : "")">
+                    @i
+                </a>
+            }
+        </div>
+    }
 </div>
+<br>
+<br>
+<br>
+<br>

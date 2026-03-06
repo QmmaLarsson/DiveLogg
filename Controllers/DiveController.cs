@@ -21,14 +21,27 @@ namespace DiveLogg.Controllers
         }
 
         // GET: Dive (hämtar även dykledare, dykare och dykskötare samt namnen på de personer som har rollerna)
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var diveLoggContext = _context.Dive
+            int pageSize = 10;
+
+            var query = _context.Dive
                 .Include(d => d.DiveLeader)
                 .Include(d => d.Diver)
-                .Include(d => d.DiveSupport);
+                .Include(d => d.DiveSupport)
+                .OrderByDescending(d => d.Date);
 
-            return View(await diveLoggContext.ToListAsync());
+            var totalItems = await query.CountAsync();
+
+            var dives = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            return View(dives);
         }
 
 
