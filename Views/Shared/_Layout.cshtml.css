@@ -2,7 +2,7 @@
     max-width: 1920px;
     margin: auto;
     background-color: #27374D;
-    min-height: 100vh;
+    flex: 1;
 }
 
 main {

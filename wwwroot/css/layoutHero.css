@@ -7,12 +7,10 @@
 .hero-background {
     position: absolute;
     inset: 0;
-    background-image: linear-gradient(
-            to bottom,
+    background-image: linear-gradient(to bottom,
             #27374d00,
             #27374d48,
-            #27374D
-        ), url('/images/hero.jpg');
+            #27374D), url('/images/hero.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -39,11 +37,4 @@
 
     top: 40%;
     transform: translateY(-50%);
-}
-
-.page-wrapper {
-    background-color: #27374D;
-    min-height: 100vh;
-    max-width: 1920px;
-    margin: 0 auto;
 }

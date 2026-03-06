@@ -8,36 +8,42 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/dive.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/person.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/DiveLogg.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/png" sizes="32x32" href="~/images/faviconS.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="~/images/faviconL.png">
+            <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+            <link rel="stylesheet" href="~/css/dive.css" asp-append-version="true" />
+            <link rel="stylesheet" href="~/css/person.css" asp-append-version="true" />
+            <link rel="stylesheet" href="~/DiveLogg.styles.css" asp-append-version="true" />
 
-    @RenderSection("LayoutStyles", required: false)
-</head>
+            @RenderSection("LayoutStyles", required: false)
+        </head>
 
-<body>
+        <body>
+            <div class="page-wrapper">
 
-    <div class="main-content">
-        <header>
-            @await Html.PartialAsync("_Menu")
-        </header>
+                <a asp-controller="Home" asp-action="Index" class="logo-link">
+                    <img src="/images/faviconL.png" alt="Logo" class="logo-Top-Left">
+                </a>
+                
+                <div class="main-content">
+                    <header>
+                        @await Html.PartialAsync("_Menu")
+                    </header>
 
-        <main>
-            @RenderBody()
-        </main>
-
-        <footer>
-            <div>
-                <p>&copy; 2026 - DiveLogg</p>
+                    <main>
+                        @RenderBody()
+                    </main>
+                </div>
+                <footer>
+                    <div>
+                        <p>&copy; 2026 - DiveLogg</p>
+                    </div>
+                </footer>
             </div>
-        </footer>
-    </div>
 
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+            @await RenderSectionAsync("Scripts", required: false)
+        </body>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-
-</html>
+    </html>

@@ -59,6 +59,32 @@ select {
     font: inherit;
 }
 
+.page-wrapper {
+    background-color: #27374D;
+    min-height: 100vh;
+    max-width: 1920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+.logo-link img {
+    cursor: pointer;
+}
+
+.logo-Top-Left {
+    position: absolute;
+    height: 70px;
+    width: 70px;
+    top: 10px;
+    left: 0;
+    z-index: 9000;
+}
+
 .main-nav {
     background: linear-gradient(180deg, #27374D, #27374dbe, #27374d00);
     padding: 1rem 0 7rem 0;
@@ -132,7 +158,6 @@ footer {
     main {
         margin: 0 !important;
         padding: 8rem 1rem 0rem 1rem !important;
-        /* justera efter navbarens höjd */
     }
 
     .menu-toggle {

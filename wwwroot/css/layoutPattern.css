@@ -1,6 +1,8 @@
 .page-wrapper {
     margin: 0 auto;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     background-color: #27374D;
     position: relative;
     max-width: 1920px;
@@ -24,5 +26,7 @@
     position: relative;
     z-index: 2;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
