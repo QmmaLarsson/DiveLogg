@@ -24,13 +24,29 @@ namespace DiveLogg.Controllers
 
         // GET: Person
         //Hämtar alla personer fån databasen och visar på skärmen
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            //Include hämtar relaterad gruppdata
-            var persons = _context.Person.Include(p => p.Group);
+            //Totalt antal personer per sida
+            int pageSize = 10;
 
-            //Konverterar till lista och visar på skärm
-            return View(await persons.ToListAsync());
+            //Hämta alla personer
+            var query = _context.Person
+                                .Include(p => p.Group)
+                                .OrderBy(p => p.Name);
+
+            var totalItems = await query.CountAsync();
+
+            //Hämta bara sidan vi vill visa
+            var persons = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            //ViewBag för paginering
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            return View(persons);
         }
 
         // GET: Person/Details/5
@@ -89,7 +105,7 @@ namespace DiveLogg.Controllers
             {
                 ModelState.AddModelError("Name", "Du måste fylla i ett namn");
             }
-        
+
 
             //Om formulärdata är felaktig
             if (!ModelState.IsValid)
@@ -186,7 +202,7 @@ namespace DiveLogg.Controllers
             {
                 ModelState.AddModelError("Name", "Du måste fylla i ett namn");
             }
-            
+
             if (!ModelState.IsValid)
             {
                 vm.AvailableRoles = _context.Role.ToList();

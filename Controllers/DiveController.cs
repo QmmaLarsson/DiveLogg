@@ -23,6 +23,7 @@ namespace DiveLogg.Controllers
         // GET: Dive (hämtar även dykledare, dykare och dykskötare samt namnen på de personer som har rollerna)
         public async Task<IActionResult> Index(int page = 1)
         {
+            //Totalt antal dyk per sida
             int pageSize = 10;
 
             var query = _context.Dive
@@ -33,11 +34,13 @@ namespace DiveLogg.Controllers
 
             var totalItems = await query.CountAsync();
 
+            //Hämta sidan vi vill visa
             var dives = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
+            //ViewBag för paginering
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
