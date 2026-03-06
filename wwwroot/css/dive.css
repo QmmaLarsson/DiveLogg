@@ -35,6 +35,11 @@ h2 {
     border: none;
 }
 
+.dive-form select,
+.date-input {
+    cursor: pointer;
+}
+
 .dive-form input {
     max-width: 45%;
 }
@@ -183,6 +188,7 @@ h2 {
 .table-container::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 3px;
+    margin: 0 auto 2rem auto;
 }
 
 .dive-table {
@@ -242,4 +248,18 @@ h2 {
     float: right;
     margin-bottom: 1rem;
     margin-right: 0.5rem;
+}
+
+.pagination {
+    text-align: center;
+}
+
+.pagination a {
+    color: white;
+    text-decoration: none;
+}
+
+.pagination a.active-page {
+    text-decoration: underline;
+    margin: 0 6px;
 }
