@@ -113,10 +113,10 @@ namespace DiveLogg.Controllers
             if (string.IsNullOrWhiteSpace(dive.NitrogenLoad) || !System.Text.RegularExpressions.Regex.IsMatch(dive.NitrogenLoad, "^[A-Z]$"))
                 ModelState.AddModelError("Dive.NitrogenLoad", "Kvävebelastning måste vara en bokstav A-Z");
 
-            if (dive.Latitude < -90 || dive.Latitude > 90 || !dive.Latitude.HasValue)
+            if (!dive.Latitude.HasValue || dive.Latitude < -90 || dive.Latitude > 90)
                 ModelState.AddModelError("Dive.Latitude", "Latitude måste vara mellan -90 och 90");
 
-            if (dive.Longitude < -180 || dive.Longitude > 180 || !dive.Longitude.HasValue)
+            if (!dive.Longitude.HasValue || dive.Longitude < -180 || dive.Longitude > 180)
                 ModelState.AddModelError("Dive.Longitude", "Longitude måste vara mellan -180 och 180");
 
             if (string.IsNullOrWhiteSpace(dive.LocationName))

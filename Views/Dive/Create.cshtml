@@ -61,15 +61,9 @@
                 <input asp-for="Dive.NitrogenLoad" />
             </div>
 
-            <div class="form-row">
-                <label asp-for="Dive.Latitude">Latitud: </label>
-                <input asp-for="Dive.Latitude" />
-            </div>
-
-            <div class="form-row">
-                <label asp-for="Dive.Longitude">Longitud: </label>
-                <input asp-for="Dive.Longitude" />
-            </div>
+            <div id="map"></div>
+            <input asp-for="Dive.Latitude" id="Latitude" type="hidden" />
+            <input asp-for="Dive.Longitude" id="Longitude" type="hidden" />
 
             <div class="form-row">
                 <label asp-for="Dive.LocationName">Dykplats: </label>
@@ -93,6 +87,48 @@
 </div>
 
 @section Scripts {
+    <script>
+        var map = L.map('map'); 
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        var marker;
+
+        //Om man har platstjänst aktiverad
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var userLat = position.coords.latitude;
+                var userLng = position.coords.longitude;
+
+                //Zooma in på användarens position
+                map.setView([userLat, userLng], 15); 
+            }, function() {
+                //Om man inte har platstjänst aktiverad visas Sverige som default
+                map.setView([62.0, 15.0], 5);
+            });
+        } else {
+            map.setView([62.0, 15.0], 5);
+        }
+
+        map.on('click', function(e) {
+
+            var lat = e.latlng.lat.toFixed(6);
+            var lng = e.latlng.lng.toFixed(6);
+
+            if (marker) {
+                map.removeLayer(marker);
+            }
+
+            marker = L.marker([lat, lng]).addTo(map);  
+
+            document.getElementById("Latitude").value = lat.replace('.', ',');
+            document.getElementById("Longitude").value = lng.replace('.', ',');
+        });
+
+    </script>
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

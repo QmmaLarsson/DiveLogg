@@ -125,15 +125,16 @@ h2 {
     margin: 0;
 }
 
-.map-placeholder {
-    background: white;
+#map {
     border-radius: 10px;
     min-height: 320px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #27374D;
-    font-weight: 500;
+    margin-bottom: 1rem;
+    border-style: solid;
+    border-color: white;
+    border-width: 3px;
 }
 
 .details-buttons {

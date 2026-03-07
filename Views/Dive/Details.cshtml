@@ -43,9 +43,7 @@
         </dl>
 
         <!-- Karta -->
-        <div class="map-placeholder">
-            <span>Karta kommer här</span>
-        </div>
+        <div id="map"></div>
 
     </div>
     <div class="details-buttons">
@@ -53,3 +51,25 @@
         <a class="submit-btn action-btn" asp-action="Index">Tillbaka</a>
     </div>
 </div>
+
+@section Scripts {
+
+    <script>
+
+    //Byter ut punkter i mina sparade koordinater till decimaler
+    var lat = @Model.Latitude?.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    var lng = @Model.Longitude?.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+    //Skapa karta
+    var map = L.map('map').setView([lat, lng], 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    //Lägger till markör
+    L.marker([lat, lng]).addTo(map);
+
+    </script>
+
+}
