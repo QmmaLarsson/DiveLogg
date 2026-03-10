@@ -1,9 +1,10 @@
 using DiveLogg.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace DiveLogg.Data
 {
-    public class DiveLoggContext : DbContext
+    public class DiveLoggContext : IdentityDbContext
     {
         public DiveLoggContext(DbContextOptions<DiveLoggContext> options) : base(options)
         {

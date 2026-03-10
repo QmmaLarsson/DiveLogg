@@ -1,3 +1,7 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 @{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
 }
@@ -15,8 +19,22 @@
         <li><a asp-controller="Dive" asp-action="Index">Dyklogg</a></li>
         <li><a asp-controller="Person" asp-action="Index">Personal</a></li>
         <li><a asp-controller="Home" asp-action="About">Om oss</a></li>
-        <li><a asp-controller="Account" asp-action="Login">Logga in</a></li>
-
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            <li>
+                <span>Hej @User.Identity.Name</span>
+            </li>
+            <li>
+                <form class="logout-form" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                    <button type="submit" class="nav-link btn btn-link" style="padding:0;">Logga ut</button>
+                </form>
+            </li>
+        }
+        else
+        {
+            <li><a asp-area="Identity" asp-page="/Account/Login">Logga in</a></li>
+            <li><a asp-area="Identity" asp-page="/Account/Register">Registrera</a></li>
+        }
     </ul>
 
 </nav>
