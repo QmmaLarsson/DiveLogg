@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DiveLogg.Data;
 using DiveLogg.Models;
 using DiveLogg.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DiveLogg.Controllers
 {
@@ -21,6 +22,7 @@ namespace DiveLogg.Controllers
         }
 
         // GET: Dive (hämtar även dykledare, dykare och dykskötare samt namnen på de personer som har rollerna)
+        [AllowAnonymous]
         public async Task<IActionResult> Index(int page = 1)
         {
             //Totalt antal dyk per sida
@@ -49,6 +51,7 @@ namespace DiveLogg.Controllers
 
 
         // GET: Dive/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -70,6 +73,7 @@ namespace DiveLogg.Controllers
         }
 
         // GET: Dive/Create
+        [Authorize]
         public IActionResult Create()
         {
             var model = new DiveCreateViewModel();
@@ -91,6 +95,7 @@ namespace DiveLogg.Controllers
         // POST: Dive/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DiveCreateViewModel model)
@@ -160,6 +165,7 @@ namespace DiveLogg.Controllers
         }
 
         // GET: Dive/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
 
@@ -199,6 +205,7 @@ namespace DiveLogg.Controllers
 
         // POST: Dive/Edit/5
         // Ändra i befintligt dyk och spara ändringar
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(DiveEditViewModel vm)
@@ -288,6 +295,7 @@ namespace DiveLogg.Controllers
 
 
         // GET: Dive/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -309,6 +317,7 @@ namespace DiveLogg.Controllers
         }
 
         // POST: Dive/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

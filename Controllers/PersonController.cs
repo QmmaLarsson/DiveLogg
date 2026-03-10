@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DiveLogg.Data;
 using DiveLogg.Models;
 using DiveLogg.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DiveLogg.Controllers
 {
@@ -24,6 +25,7 @@ namespace DiveLogg.Controllers
 
         // GET: Person
         //Hämtar alla personer fån databasen och visar på skärmen
+        [AllowAnonymous]
         public async Task<IActionResult> Index(int page = 1)
         {
             //Totalt antal personer per sida
@@ -51,6 +53,7 @@ namespace DiveLogg.Controllers
 
         // GET: Person/Details/5
         //Visar detaljer för en specifik person
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
 
@@ -79,6 +82,7 @@ namespace DiveLogg.Controllers
 
         // GET: Person/Create
         //Visar formulär för att skapa ny person
+        [Authorize]
         public IActionResult Create()
         {
 
@@ -95,6 +99,7 @@ namespace DiveLogg.Controllers
 
         // POST: Person/Create
         // Tar emot formulärdata och sparar som ny person i databasen
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PersonCreateViewModel vm)
@@ -155,6 +160,7 @@ namespace DiveLogg.Controllers
 
         // GET: Person/Edit/5
         //Formulär för att redigera person
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             //Kontroll om person existerar
@@ -191,7 +197,8 @@ namespace DiveLogg.Controllers
         }
 
         // POST: Person/Edit/5
-        // ppdatera person i databasen      
+        // ppdatera person i databasen  
+        [Authorize]    
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PersonEditViewModel vm)
@@ -252,6 +259,7 @@ namespace DiveLogg.Controllers
 
         // GET: Person/Delete/5
         //Sida för att bekräfta en delete
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
 
@@ -278,6 +286,7 @@ namespace DiveLogg.Controllers
 
         // POST: Person/Delete/5
         //Ta bort person från databasen
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
