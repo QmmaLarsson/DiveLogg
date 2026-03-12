@@ -105,11 +105,11 @@
                     //Zooma in på användarens position
                     map.setView([userLat, userLng], 15);
                 }, function () {
-                    //Om man inte har platstjänst aktiverad visas Sverige som default
-                    map.setView([62.0, 15.0], 5);
+                    //Om man inte har platstjänst aktiverad visas Västerås som default
+                    map.setView([59.595, 16.56], 13);
                 });
             } else {
-                map.setView([62.0, 15.0], 5);
+                map.setView([59.595, 16.56], 13);
             }
 
             map.on('click', function (e) {
