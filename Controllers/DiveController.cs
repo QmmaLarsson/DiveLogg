@@ -23,7 +23,7 @@ namespace DiveLogg.Controllers
 
         // GET: Dive (hämtar även dykledare, dykare och dykskötare samt namnen på de personer som har rollerna)
         [AllowAnonymous]
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, int? groupId = null, int? personId = null)
         {
             //Totalt antal dyk per sida
             int pageSize = 10;
@@ -32,7 +32,28 @@ namespace DiveLogg.Controllers
                 .Include(d => d.DiveLeader)
                 .Include(d => d.Diver)
                 .Include(d => d.DiveSupport)
-                .OrderByDescending(d => d.Date);
+                .AsQueryable();
+
+            //Filtrera på grupp
+            if (groupId.HasValue)
+            {
+                query = query.Where(d =>
+                    (d.DiveLeader != null && d.DiveLeader.GroupId == groupId) ||
+                    (d.Diver != null && d.Diver.GroupId == groupId) ||
+                    (d.DiveSupport != null && d.DiveSupport.GroupId == groupId));
+            }
+
+            //Filtrera på person
+            if (personId.HasValue)
+            {
+                query = query.Where(d =>
+                    d.DiveLeaderId == personId ||
+                    d.DiverId == personId ||
+                    d.DiveSupportId == personId);
+            }
+
+            //Sortera efter datum
+            query = query.OrderByDescending(d => d.Date);
 
             var totalItems = await query.CountAsync();
 
@@ -45,6 +66,25 @@ namespace DiveLogg.Controllers
             //ViewBag för paginering
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            //Dropdown för grupper
+            ViewBag.Groups = new SelectList(new[]
+            {
+                new {Id = (int?)null, Name = "Alla grupper"},
+                new {Id = (int?)1, Name = "Grupp 1"},
+                new {Id = (int?)2, Name = "Grupp 2"},
+                new {Id = (int?)3, Name = "Grupp 3"},
+                new {Id = (int?)4, Name = "Grupp 4"}
+            }, "Id", "Name", groupId);
+
+            var persons = _context.Person.AsQueryable();
+
+            if (groupId.HasValue)
+            {
+                persons = persons.Where(p => p.GroupId == groupId);
+            }
+
+            ViewBag.Persons = new SelectList(persons, "Id", "Name", personId);
 
             return View(dives);
         }

@@ -8,9 +8,19 @@
 <h1>Dyklogg</h1>
 
 <div class="page-container">
-    <p>
+    <div class="table-tools">
+        <form method="get" class="dive-filter-form">
+
+            <select name="groupId" asp-items="ViewBag.Groups" onchange="this.form.submit()">
+            </select>
+
+            <select name="personId" asp-items="ViewBag.Persons" onchange="this.form.submit()">
+                <option value="">Alla personer</option>
+            </select>
+
+        </form>
         <a asp-action="Create" class="table-btn add-btn">Nytt dyk</a>
-    </p>
+    </div>
     <div class="table-container">
         <table class="dive-table">
             <thead>
