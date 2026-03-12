@@ -44,16 +44,39 @@
         </dl>
 
         <!-- Karta -->
-        <div class="map-placeholder">
-            <span>Karta kommer här</span>
-        </div>
+        <div id="map"></div>
 
     </div>
 
     <form class="details-buttons" asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input class="submit-btn action-btn" type="submit" value="Ta bort" />
-        <a class="submit-btn action-btn" asp-action="Index">Tillbaka till lista</a>
     </form>
 
 </div>
+
+<div class="navigate-back">
+    <a asp-action="Index">Tillbaka till Dyklogg</a>
+</div>
+
+@section Scripts {
+
+    <script>
+
+        //Byter ut punkter i mina sparade koordinater till decimaler
+        var lat = @Model.Latitude?.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var lng = @Model.Longitude?.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+        //Skapa karta
+        var map = L.map('map').setView([lat, lng], 16);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        //Lägger till markör
+        L.marker([lat, lng]).addTo(map);
+
+    </script>
+
+}

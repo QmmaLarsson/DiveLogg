@@ -48,8 +48,12 @@
     </div>
     <div class="details-buttons">
         <a class="submit-btn action-btn" asp-action="Edit" asp-route-id="@Model?.Id">Redigera</a>
-        <a class="submit-btn action-btn" asp-action="Index">Tillbaka</a>
+        <a class="submit-btn action-btn" asp-action="Delete" asp-route-id="@Model?.Id">Ta bort</a>
     </div>
+</div>
+
+<div class="navigate-back">
+    <a asp-action="Index">Tillbaka till Dyklogg</a>
 </div>
 
 @section Scripts {
@@ -61,7 +65,7 @@
     var lng = @Model.Longitude?.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
     //Skapa karta
-    var map = L.map('map').setView([lat, lng], 15);
+    var map = L.map('map').setView([lat, lng], 16);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap'
