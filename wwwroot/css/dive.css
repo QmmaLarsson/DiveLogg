@@ -154,6 +154,7 @@ h2 {
     transform: scale(1.05);
 }
 
+/*Regler för mobil*/
 @media (max-width: 768px) {
 
     .details-layout {
@@ -278,6 +279,7 @@ h2 {
 
     .add-btn {
         align-self: center;
+        margin: 1rem;
     }
 }
 
