@@ -26,7 +26,7 @@ namespace DiveLogg.Controllers
         // GET: Person
         //Hämtar alla personer fån databasen och visar på skärmen
         [AllowAnonymous]
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, int? groupId = null)
         {
             //Totalt antal personer per sida
             int pageSize = 10;
@@ -34,7 +34,16 @@ namespace DiveLogg.Controllers
             //Hämta alla personer
             var query = _context.Person
                                 .Include(p => p.Group)
-                                .OrderBy(p => p.Name);
+                                .AsQueryable();
+
+            //Filtrera på grupp om groupId är valt
+            if (groupId.HasValue)
+            {
+                query = query.Where(p => p.GroupId == groupId);
+            }
+
+            //Sortera efter namn
+            query = query.OrderBy(p => p.Name);
 
             var totalItems = await query.CountAsync();
 
@@ -47,6 +56,15 @@ namespace DiveLogg.Controllers
             //ViewBag för paginering
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            //ViewBag för grupp-filter dropdown
+            ViewBag.Groups = new SelectList(
+                _context.Group.OrderBy(g => g.Name),
+                "Id",
+                "Name",
+                groupId
+            );
+
 
             return View(persons);
         }
@@ -198,7 +216,7 @@ namespace DiveLogg.Controllers
 
         // POST: Person/Edit/5
         // ppdatera person i databasen  
-        [Authorize]    
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PersonEditViewModel vm)

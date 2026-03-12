@@ -8,9 +8,12 @@
 <h1>Personal</h1>
 
 <div class="page-container">
-    <p>
+    <div class="table-tools">
+        <form method="get" class="person-filter-form">
+            <select name="groupId" asp-items="ViewBag.Groups" onchange="this.form.submit()"><option value="">Alla grupper</option></select>
+        </form>
         <a asp-action="Create" class="table-btn add-btn">Ny person</a>
-    </p>
+    </div>
     <div class="table-container">
         <table class="person-table">
             <thead>

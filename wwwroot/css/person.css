@@ -244,10 +244,41 @@ h2 {
     transform: scale(1.05);
 }
 
-.add-btn {
-    float: right;
+.table-tools {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 1rem;
-    margin-right: 0.5rem;
+}
+
+.person-filter-form {
+    display: flex;
+    gap: 1rem;
+    flex: 1;
+}
+
+.person-filter-form select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: none;
+}
+
+/*Regler för mobil (filtrering och "Ny person"-knapp)*/
+@media (max-width: 768px) {
+    .table-tools {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .person-filter-form {
+        justify-content: center;
+    }
+
+    .add-btn {
+        align-self: center;
+        margin-bottom: 1rem;
+    }
 }
 
 .pagination {
