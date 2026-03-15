@@ -6,5 +6,10 @@
 @section Hero {
     <div>
         <h1>Välkommen till DiveLogg</h1>
+
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            <h2>Hej @User.Identity.Name</h2>
+        }
     </div>
 }

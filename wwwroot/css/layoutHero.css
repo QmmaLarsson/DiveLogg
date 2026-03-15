@@ -31,10 +31,30 @@
 
 .hero-content {
     position: relative;
-    z-index: 2;
     color: white;
     text-align: center;
-
-    top: 40%;
+    top: 60%;
     transform: translateY(-50%);
+}
+
+.loginButton {
+    display: inline-block;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    font-size: 2rem;
+    background-color: #526D82;
+    border-style: none;
+    border-radius: 0 !important;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-top: 2rem;
+}
+
+.loginButton a {
+    text-decoration: none;
+    color: white;
+}
+
+.loginButton:hover {
+    transform: scale(1.05);
 }
