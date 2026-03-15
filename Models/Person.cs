@@ -22,4 +22,7 @@ public class Person
     public ICollection<Dive> LedDives { get; set; } = new List<Dive>();
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    //Ta bort person
+    public bool IsDeleted { get; set; } = false;
 }

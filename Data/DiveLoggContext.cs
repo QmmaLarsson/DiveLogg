@@ -22,6 +22,14 @@ namespace DiveLogg.Data
 
             base.OnModelCreating(modelBuilder);
 
+            //Filtrera bort borttagna personer
+            modelBuilder.Entity<Person>()
+                .HasQueryFilter(p => !p.IsDeleted);
+
+            //Filtrera bort roller kopplade till borttagna personer
+            modelBuilder.Entity<PersonRole>()
+                .HasQueryFilter(pr => pr.Person != null && !pr.Person.IsDeleted);
+
             //Roll som länkas till person måste vara unik (inte dykare + dykare etc)
             modelBuilder.Entity<PersonRole>()
                 .HasIndex(pr => new { pr.PersonId, pr.RoleId })

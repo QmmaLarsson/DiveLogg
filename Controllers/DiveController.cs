@@ -29,9 +29,9 @@ namespace DiveLogg.Controllers
             int pageSize = 10;
 
             var query = _context.Dive
-                .Include(d => d.DiveLeader)
-                .Include(d => d.Diver)
-                .Include(d => d.DiveSupport)
+                .Include(d => d.DiveLeader).IgnoreQueryFilters()
+                .Include(d => d.Diver).IgnoreQueryFilters()
+                .Include(d => d.DiveSupport).IgnoreQueryFilters()
                 .AsQueryable();
 
             //Filtrera på grupp
@@ -77,13 +77,14 @@ namespace DiveLogg.Controllers
                 new {Id = (int?)4, Name = "Grupp 4"}
             }, "Id", "Name", groupId);
 
-            var persons = _context.Person.AsQueryable();
+            var persons = _context.Person.IgnoreQueryFilters().AsQueryable();
+
 
             if (groupId.HasValue)
             {
                 persons = persons.Where(p => p.GroupId == groupId);
             }
-
+            //Dropdown för personer
             ViewBag.Persons = new SelectList(persons, "Id", "Name", personId);
 
             return View(dives);
@@ -99,15 +100,30 @@ namespace DiveLogg.Controllers
                 return NotFound();
             }
 
-            var dive = await _context.Dive
-                .Include(d => d.DiveLeader)
-                .Include(d => d.Diver)
-                .Include(d => d.DiveSupport)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //Hämta dyket först
+            var dive = await _context.Dive.FirstOrDefaultAsync(d => d.Id == id);
             if (dive == null)
-            {
                 return NotFound();
-            }
+
+            //Hämta dykledare, dykare och dykskötare
+            dive.DiveLeader = dive.DiveLeaderId.HasValue
+                ? await _context.Person
+                    .IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(p => p.Id == dive.DiveLeaderId)
+                : null;
+
+            dive.Diver = dive.DiverId.HasValue
+                ? await _context.Person
+                    .IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(p => p.Id == dive.DiverId)
+                : null;
+
+            dive.DiveSupport = dive.DiveSupportId.HasValue
+                ? await _context.Person
+                    .IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(p => p.Id == dive.DiveSupportId)
+                : null;
+
 
             return View(dive);
         }
@@ -341,9 +357,9 @@ namespace DiveLogg.Controllers
             }
 
             var dive = await _context.Dive
-                .Include(d => d.DiveLeader)
-                .Include(d => d.Diver)
-                .Include(d => d.DiveSupport)
+                .Include(d => d.DiveLeader).IgnoreQueryFilters()
+                .Include(d => d.Diver).IgnoreQueryFilters()
+                .Include(d => d.DiveSupport).IgnoreQueryFilters()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (dive == null)
             {
@@ -374,18 +390,21 @@ namespace DiveLogg.Controllers
         {
             model.DiveLeaders = new SelectList(
                 _context.PersonRole
+                    .IgnoreQueryFilters()
                     .Where(pr => pr.Role.Name == "DiveLeader")
                     .Select(pr => pr.Person),
                 "Id", "Name");
 
             model.Divers = new SelectList(
                 _context.PersonRole
+                    .IgnoreQueryFilters()
                     .Where(pr => pr.Role.Name == "Diver")
                     .Select(pr => pr.Person),
                 "Id", "Name");
 
             model.DiveSupports = new SelectList(
                 _context.PersonRole
+                    .IgnoreQueryFilters()
                     .Where(pr => pr.Role.Name == "DiveSupport")
                     .Select(pr => pr.Person),
                 "Id", "Name");
@@ -395,6 +414,7 @@ namespace DiveLogg.Controllers
         {
             vm.DiveLeaders = new SelectList(
                 _context.Person
+                .IgnoreQueryFilters()
                     .Where(p => p.PersonRoles.Any(pr => pr.Role.Name == "DiveLeader")),
                 "Id",
                 "Name",
@@ -403,6 +423,7 @@ namespace DiveLogg.Controllers
 
             vm.Divers = new SelectList(
                 _context.Person
+                .IgnoreQueryFilters()
                     .Where(p => p.PersonRoles.Any(pr => pr.Role.Name == "Diver")),
                 "Id",
                 "Name",
@@ -411,6 +432,7 @@ namespace DiveLogg.Controllers
 
             vm.DiveSupports = new SelectList(
                 _context.Person
+                .IgnoreQueryFilters()
                     .Where(p => p.PersonRoles.Any(pr => pr.Role.Name == "DiveSupport")),
                 "Id",
                 "Name",

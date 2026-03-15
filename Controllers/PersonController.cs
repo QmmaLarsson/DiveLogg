@@ -315,7 +315,7 @@ namespace DiveLogg.Controllers
             //Om person hittas, radera person
             if (person != null)
             {
-                _context.Person.Remove(person);
+                person.IsDeleted = true;
                 await _context.SaveChangesAsync();
             }
 

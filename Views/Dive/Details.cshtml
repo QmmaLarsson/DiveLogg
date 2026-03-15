@@ -17,13 +17,31 @@
         <dl class="details-list">
 
             <dt>Dykledare</dt>
-            <dd>@Model.DiveLeader.Name</dd>
+            <dd>
+                @if (Model.DiveLeader == null)
+                {
+                    <span>Borttagen person</span>
+                }
+                else
+                {
+                    <span>@Model.DiveLeader.Name</span>
+                }
+            </dd>
 
             <dt>Dykare</dt>
-            <dd>@Model.Diver.Name</dd>
+            <dd>
+                @if (Model.Diver == null)
+                {
+                    <span>Borttagen person</span>
+                }
+                else
+                {
+                    <span>@Model.Diver.Name</span>
+                }
+            </dd>
 
             <dt>Dykskötare</dt>
-            <dd>@Model.DiveSupport.Name</dd>
+            <dd>@Model.DiveSupport?.Name</dd>
 
             <dt>Djup</dt>
             <dd>@Model.Depth m</dd>
@@ -60,19 +78,19 @@
 
     <script>
 
-    //Byter ut punkter i mina sparade koordinater till decimaler
-    var lat = @Model.Latitude?.ToString(System.Globalization.CultureInfo.InvariantCulture);
-    var lng = @Model.Longitude?.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        //Byter ut punkter i mina sparade koordinater till decimaler
+                        var lat = @Model?.Latitude?.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        var lng = @Model?.Longitude?.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-    //Skapa karta
-    var map = L.map('map').setView([lat, lng], 16);
+                        //Skapa karta
+                        var map = L.map('map').setView([lat, lng], 16);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap'
-    }).addTo(map);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap'
+                        }).addTo(map);
 
-    //Lägger till markör
-    L.marker([lat, lng]).addTo(map);
+                        //Lägger till markör
+                        L.marker([lat, lng]).addTo(map);
 
     </script>
 
