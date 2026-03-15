@@ -22,9 +22,6 @@
         @if (User.Identity?.IsAuthenticated ?? false)
         {
             <li>
-                <span>Hej @User.Identity.Name</span>
-            </li>
-            <li>
                 <form class="logout-form" asp-area="Identity" asp-page="/Account/Logout" method="post">
                     <button type="submit" class="nav-link btn btn-link" style="padding:0;">Logga ut</button>
                 </form>
@@ -33,7 +30,6 @@
         else
         {
             <li><a asp-area="Identity" asp-page="/Account/Login">Logga in</a></li>
-            <li><a asp-area="Identity" asp-page="/Account/Register">Registrera</a></li>
         }
     </ul>
 
