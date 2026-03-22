@@ -27,7 +27,7 @@ Inloggning krävs för att skapa, redigera och ta bort data. Autentisering och a
 
 **Kom igång:**
 1. Klona projektet och gå in i mappen
-git clone https://github.com/QmmaLarsson/DiveLogg.git
+git clone https://github.com/QmmaLarsson/DiveLogg.git\
 cd DiveLogg
 
 2. Installera nödvändiga paket
