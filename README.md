@@ -26,9 +26,8 @@ Kartvisualiseringen är byggt med Leaflet. Vid skapande av ett nytt dyk väljer 
 Inloggning krävs för att skapa, redigera och ta bort data. Autentisering och auktorisering hanteras via ASP.NET Core Identity.
 
 **Kom igång:**
-1. Klona projektet och gå in i mappen
-git clone https://github.com/QmmaLarsson/DiveLogg.git\
-cd DiveLogg
+1. Klona projektet
+git clone https://github.com/QmmaLarsson/DiveLogg.git
 
 2. Installera nödvändiga paket
 dotnet restore
