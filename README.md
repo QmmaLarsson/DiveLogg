@@ -1,6 +1,6 @@
 # DiveLogg (projekt i kursen DT191G, Webbutveckling med .NET)
-**Namn:** Emma Larsson och Anton Eriksson\
-**Student-ID:** emla2309 och aner2308
+**Namn, student-ID:** Emma Larsson, emla2309\
+**Namn, student-ID:** Anton Eriksson, aner2308
 
 DiveLogg är en webbapplikation byggd med ASP.NET Core MVC för att registrera och hantera dyk. Applikationen stödjer CRUD-operationer, filtrering, paginering, kartvisualisering och användarautentisering.
 
